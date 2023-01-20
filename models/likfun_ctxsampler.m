@@ -1,0 +1,145 @@
+function [nloglik Q rpe pc]= likfun_ctxsampler(params, trialrec, flags)
+% WIP.
+%
+% Likelihood function for memory sampling model
+
+% INPUTS
+%   trialrec
+%   params      (alpha - learning rate; beta - softmax temp; beta_p - perseveration)
+%
+%
+% Flags:
+%   .combs      -> Precomputed k-combinations of each trial index (cell
+%   array of numTrials x numSamples containing matrices of size (n+k-1 choose k) x k for each Bandit)
+%   .numSamples -> Number of samples to draw (aka: k)
+%   .choicerec  -> list of choices made [bandit rwdval isprobe]
+%%
+
+% trialrec{1}
+
+numBandits = 3;
+maxTrials  = 180;
+numSamples = flags.numSamples;
+
+averageQ = 0;
+
+alpha  = params(1);
+beta   = params(2);
+beta_c = params(3);
+
+combs     = flags.combs{numSamples};
+choicerec = flags.choicerec;
+
+Q        = zeros(maxTrials, numBandits);
+pc       = zeros(1, maxTrials);
+rpe       = zeros(1, maxTrials);
+
+pc(1)   = 0.5;
+
+%%
+for trialIdx = 2:maxTrials
+%     trialIdx
+
+    chosenBandit = trialrec{trialIdx}.choice + 1;
+    prevChosenBandit = trialrec{trialIdx-1}.choice + 1;
+%     otherBandits = find((1:numBandits) ~= chosenBandit);
+    if (chosenBandit == 0) % Invalid trial. Skip.
+        continue;
+    end
+    
+    for b = 1:numBandits
+        bPrevIdxs   = reshape(combs{trialIdx, b}.', 1, []);
+%         bPrevIdxs
+        rwdval{b}  = [choicerec(bPrevIdxs, 2)'];
+        pval{b}    = [alpha * ( (1-alpha).^(trialIdx-bPrevIdxs))];
+%         pval{b}
+
+        if (length(rwdval{b}) < 1)
+            rwdval{b} = [0];
+            pval{b}   = [1];
+        end
+        pval{b}    = pval{b}./sum(pval{b});
+
+        rwdval{b} = sign(rwdval{b});
+%         rwdval{bi}
+%         'here'
+%         disp([size(rwdval{b})]);
+%         disp([size(pval{b})]);
+%         sum(rwdval{bi} .* pval{bi})
+        Q(trialIdx, b)             = sum(rwdval{b} .* pval{b});
+        rpe(trialIdx) = trialrec{trialIdx}.rwdval - Q(trialIdx, chosenBandit);
+    end
+    
+%     chosenBandit
+%     rwdval{chosenBandit}
+    
+    if (averageQ)
+        denom = 0;
+        for b=1:numBandits
+            denom = denom + exp(beta_c .* (prevChosenBandit == b) + beta .* Q(trialIdx, b));
+        end
+        pc(trialIdx) = max(1e-32, exp(beta_c .* (prevChosenBandit == chosenBandit) + beta .* Q(trialIdx, chosenBandit)) ./ denom);
+    else
+
+        rvmat1 = [];
+        rvmat2 = [];
+        rvmat = [];
+        pmat1  = [];
+        pmat2  = [];
+
+        nonChosenBandits = find((1:numBandits) ~= chosenBandit);
+        
+%         nonChosenBandits
+
+        otherBandit1 = nonChosenBandits(1);
+        otherBandit2 = nonChosenBandits(2);
+        for r = 1:length(rwdval{chosenBandit})
+            rvmat1 = [rvmat1; exp(beta_c.* ((otherBandit1 == prevChosenBandit) - (chosenBandit == prevChosenBandit)) - beta .* (rwdval{chosenBandit}(r) - rwdval{otherBandit1}(:)))];
+            rvmat2 = [rvmat2; exp(beta_c.* ((otherBandit2 == prevChosenBandit) - (chosenBandit == prevChosenBandit)) - beta .* (rwdval{chosenBandit}(r) - rwdval{otherBandit2}(:)))];
+        end
+
+%         rvmat1
+%         rvmat2
+        
+%         disp([size(rvmat1)]);
+%         disp([size(rvmat2)]);
+        
+        j = length(rwdval{chosenBandit});
+        k = length(rwdval{nonChosenBandits(1)});
+        l = length(rwdval{nonChosenBandits(2)});
+        
+%         jkl = [j, k, l]
+%         pvallengths = [length(pval{chosenBandit}), length(pval{nonChosenBandits(1)}), length(pval{nonChosenBandits(2)})]
+        
+        for i = 0:j-1
+%             rvmat1(i*k+1:(i+1)*k)
+%             rvmat2(i*l+1:(i+1)*l)
+            rwdcombs = allcomb(rvmat1(i*k+1:(i+1)*k), rvmat2(i*l+1:(i+1)*l));
+            rvmat = [rvmat; sum(rwdcombs, 2)];
+        end
+        
+%         rvmat
+
+        for r = 1:length(rwdval{otherBandit1})
+            pmat1  = [pmat1; pval{otherBandit1}(r).*pval{otherBandit2}(:)];
+        end
+       
+%         pmat1
+        
+        for r = 1:length(rwdval{chosenBandit})
+            pmat2  = [pmat2; pval{chosenBandit}(r).*pmat1(:)];
+        end
+%         pmat2
+
+        softmaxterm = 1./(1 + rvmat);
+%       disp([size(softmaxterm)]);
+        pc(trialIdx) = sum(pmat2.*[max(softmaxterm, 1e-32)]);
+    end
+end
+
+nloglik = -sum(log(pc));
+
+% add in the log prior probability of the parameters
+nloglik = nloglik - log(flags.pp_alpha(alpha));
+nloglik = nloglik - log(flags.pp_beta(beta));
+nloglik = nloglik - log(flags.pp_betaC(beta_c));
