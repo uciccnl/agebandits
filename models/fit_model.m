@@ -1,6 +1,7 @@
 function results = fit_model(likfunToUse)
 %
-% This function takes as input a likelihood function (=2 only supported)
+% This function takes as input a data set, a likelihood function
+% and the name where the data should be saved
 %
 %   likfunToUse = 2 (currently supported values = [2])
 %
@@ -79,8 +80,8 @@ ub = [param.ub];
 
 % define options for fminunc
 options = optimoptions('fminunc','Display','off','HessianApproximation','lbfgs');
-% searchopts  = optimset('Display','off','TolCon',1e-6,'TolFun',1e-5,'TolX',1e-5,...
-%                        'DiffMinChange',1e-4,'Maxiter',1000,'MaxFunEvals',2000);
+searchopts  = optimset('Display','off','TolCon',1e-6,'TolFun',1e-5,'TolX',1e-5,...
+                       'DiffMinChange',1e-4,'Maxiter',1000,'MaxFunEvals',2000);
 
 % Set up results structure
 results.numParams = numParams;
@@ -96,9 +97,9 @@ for sub = submat;
 
     nUnchanged = 0;
     starts = 0;
-    while nUnchanged < 10       % "Convergence" test. This could be better.
+    while nUnchanged < 50       % "Convergence" test. This could be better.
         starts = starts + 1;    % add 1 to starts
-        starts
+%         starts
         if likfunToUse == 1
             f = @(x) likfun_ctxtd(transform_params(x, paramNames), dataToFit{sub}.trialrec, flags);
         elseif likfunToUse == 2
@@ -112,16 +113,17 @@ for sub = submat;
         end
         % find min negative log likelihood = maximum likelihood for each
         % subject
+%         x0
+%         f(x0)
         [x,nloglik,exitflag,output,~,~] = fminunc(f, x0, options);
-%         if exitflag ~= 1
-%             disp("oop")
-%             [x, nloglik,exitflag,output] = fminsearch(f, x0, searchopts);
-%             grad = nan;
-%             hessian = nan;
-%         end
+        if exitflag ~= 1
+            disp("oop")
+            [x, nloglik,exitflag,output] = fminsearch(f, x0, searchopts);
+        end
 %         
         if exitflag ~= 1
             disp(['Failure to converge']);
+            continue;
         end
 
         disp(['subject ' num2str(sub) ': start ' num2str(starts) '(' num2str(nUnchanged) '): NLL ' num2str(nloglik) ', tr-params [', num2str(transform_params(x, paramNames)) ']']);
@@ -137,7 +139,8 @@ for sub = submat;
             nUnchanged = 0; %reset to 0 if likelihood changes
 
             results.nLogLik(sub)  = nloglik;
-            results.params(sub, :) = transform_params(x, paramNames);
+            results.params(sub, :) = x;
+            results.transformedParams(sub, :) = transform_params(x, paramNames);
 
             useLogLik = nloglik;
 
@@ -158,13 +161,13 @@ for sub = submat;
             nUnchanged = nUnchanged + 1;
         end  % if starts == 1
     end % while
-
-    'Final'
-    strcat('Subject ', num2str(sub))
-    strcat(': Final MAP ', num2str(results.nLogLik(sub)))
-    strcat('final AIC ', num2str(results.AIC(sub)))
-    strcat('final BIC ', num2str(results.BIC(sub)))
-    strcat('final params ', num2str(results.params(sub, :)))
+% 
+%     'Final'
+%     strcat('Subject ', num2str(sub))
+%     strcat(': Final MAP ', num2str(results.nLogLik(sub)))
+%     strcat('final AIC ', num2str(results.AIC(sub)))
+%     strcat('final BIC ', num2str(results.BIC(sub)))
+%     strcat('final params ', num2str(results.params(sub, :)))
 
 
 %     disp(['Subject ' num2str(sub) ': Final MAP ' num2str(results.nLogLik(sub)) ...

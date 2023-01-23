@@ -21,6 +21,11 @@ numBandits = 3;
 maxTrials  = 180;
 numSamples = flags.numSamples;
 
+% Select all valid choice trials.
+choiceTrials    = cellfun(@(x)(x.choice>-1 & x.type==0), trialrec(1:maxTrials));
+choiceTrials    = find(choiceTrials);
+% choiceTrials    = choiceTrials(1:maxTrials)
+
 averageQ = 0;
 
 alpha  = params(1);
@@ -44,6 +49,8 @@ for trialIdx = 2:maxTrials
     prevChosenBandit = trialrec{trialIdx-1}.choice + 1;
 %     otherBandits = find((1:numBandits) ~= chosenBandit);
     if (chosenBandit == 0) % Invalid trial. Skip.
+%         trialIdx
+%         'invalid'
         continue;
     end
     
@@ -51,7 +58,7 @@ for trialIdx = 2:maxTrials
         bPrevIdxs   = reshape(combs{trialIdx, b}.', 1, []);
 %         bPrevIdxs
         rwdval{b}  = [choicerec(bPrevIdxs, 2)'];
-        pval{b}    = [alpha * ( (1-alpha).^(trialIdx-bPrevIdxs))];
+        pval{b}    = [alpha .* ( (1-alpha).^(trialIdx-bPrevIdxs))];
 %         pval{b}
 
         if (length(rwdval{b}) < 1)
@@ -90,54 +97,68 @@ for trialIdx = 2:maxTrials
         nonChosenBandits = find((1:numBandits) ~= chosenBandit);
         
 %         nonChosenBandits
-
         otherBandit1 = nonChosenBandits(1);
         otherBandit2 = nonChosenBandits(2);
-        for r = 1:length(rwdval{chosenBandit})
-            rvmat1 = [rvmat1; exp(beta_c.* ((otherBandit1 == prevChosenBandit) - (chosenBandit == prevChosenBandit)) - beta .* (rwdval{chosenBandit}(r) - rwdval{otherBandit1}(:)))];
-            rvmat2 = [rvmat2; exp(beta_c.* ((otherBandit2 == prevChosenBandit) - (chosenBandit == prevChosenBandit)) - beta .* (rwdval{chosenBandit}(r) - rwdval{otherBandit2}(:)))];
-        end
+        I1 = otherBandit1 == prevChosenBandit;
+        I2 = otherBandit2 == prevChosenBandit;
+        Ic = chosenBandit == prevChosenBandit;
+
+        rvmat1 = arrayfun(@(x)(exp(beta_c.*(I1 - Ic) - beta.*(x - rwdval{otherBandit1}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
+        rvmat2 = arrayfun(@(x)(exp(beta_c.*(I2 - Ic) - beta.*(x - rwdval{otherBandit2}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
+
+%         for r = 1:length(rwdval{chosenBandit})
+%             rvmat1 = [rvmat1; exp(beta_c.* ((otherBandit1 == prevChosenBandit) - (chosenBandit == prevChosenBandit)) - beta .* (rwdval{chosenBandit}(r) - rwdval{otherBandit1}(:)))];
+%             rvmat2 = [rvmat2; exp(beta_c.* ((otherBandit2 == prevChosenBandit) - (chosenBandit == prevChosenBandit)) - beta .* (rwdval{chosenBandit}(r) - rwdval{otherBandit2}(:)))];
+%         end
+
+        rvmat1 = [rvmat1{:}];
+        rvmat2 = [rvmat2{:}];
 
 %         rvmat1
 %         rvmat2
-        
-%         disp([size(rvmat1)]);
-%         disp([size(rvmat2)]);
         
         j = length(rwdval{chosenBandit});
         k = length(rwdval{nonChosenBandits(1)});
         l = length(rwdval{nonChosenBandits(2)});
         
 %         jkl = [j, k, l]
-%         pvallengths = [length(pval{chosenBandit}), length(pval{nonChosenBandits(1)}), length(pval{nonChosenBandits(2)})]
         
-        for i = 0:j-1
-%             rvmat1(i*k+1:(i+1)*k)
-%             rvmat2(i*l+1:(i+1)*l)
-            rwdcombs = allcomb(rvmat1(i*k+1:(i+1)*k), rvmat2(i*l+1:(i+1)*l));
-            rvmat = [rvmat; sum(rwdcombs, 2)];
-        end
+        rvmat = arrayfun(@(i)(sum(allcomb(rvmat1(i*k+1:(i+1)*k), rvmat2(i*l+1:(i+1)*l)), 2)), (0:j-1), 'UniformOutput', false);
+        rvmat = vertcat(rvmat{:});
+
+%         for i = 0:j-1
+%             rwdcombs = allcomb(rvmat1(i*k+1:(i+1)*k), rvmat2(i*l+1:(i+1)*l));
+%             rvmat = [rvmat; sum(rwdcombs, 2)];
+%         end
         
 %         rvmat
 
-        for r = 1:length(rwdval{otherBandit1})
-            pmat1  = [pmat1; pval{otherBandit1}(r).*pval{otherBandit2}(:)];
-        end
+        pmat1  = arrayfun(@(x)(x.*pval{otherBandit2}(:)'), [pval{otherBandit1}(:)], 'UniformOutput', false);
+        pmat1 = [pmat1{:}];
+        pmat2  = arrayfun(@(x)(x.*pmat1(:)'), [pval{chosenBandit}(:)], 'UniformOutput', false);
+        pmat2 = [pmat2{:}];
+
+%         for r = 1:length(rwdval{otherBandit1})
+%             pmat1  = [pmat1; pval{otherBandit1}(r).*pval{otherBandit2}(:)];
+%         end
        
 %         pmat1
         
-        for r = 1:length(rwdval{chosenBandit})
-            pmat2  = [pmat2; pval{chosenBandit}(r).*pmat1(:)];
-        end
+%         for r = 1:length(rwdval{chosenBandit})
+%             pmat2  = [pmat2; pval{chosenBandit}(r).*pmat1(:)];
+%         end
 %         pmat2
 
         softmaxterm = 1./(1 + rvmat);
-%       disp([size(softmaxterm)]);
-        pc(trialIdx) = sum(pmat2.*[max(softmaxterm, 1e-32)]);
+%         softmaxterm
+        prob = sum(pmat2.*softmaxterm');
+%         prob
+        pc(trialIdx) = max(prob, 1e-32);
     end
 end
 
-nloglik = -sum(log(pc));
+
+nloglik = -sum(log(pc(choiceTrials)));
 
 % add in the log prior probability of the parameters
 nloglik = nloglik - log(flags.pp_alpha(alpha));
