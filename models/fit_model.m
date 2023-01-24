@@ -8,7 +8,7 @@ function results = fit_model(likfunToUse)
 
 verbose = 1;
 veryverbose = 1;
-mode = '_smalltest'
+mode = '_test'
 dataDir = strcat('../transformed_Data_06.13.22_FILES', mode)
 saveFile = strcat('ctxsample_results', mode)
 dataPattern = 'transformed_Data*.mat';
@@ -93,7 +93,7 @@ results.numParams = numParams;
 
 % for sub = 1:nSubs
 for sub = submat;
-    disp(['Fitting subject ' int2str(sub)]);
+    disp(['>>> Fitting subject ' int2str(sub) ' ' datestr(datetime)]);
 
     nUnchanged = 0;
     starts = 0;
@@ -109,22 +109,26 @@ for sub = submat;
         f = @(x) likfun_ctxsampler(x, dataToFit{sub}.trialrec, flags);
     end
 
-    while nUnchanged < 50       % "Convergence" test. This could be better.
+    x0 = zeros(1,numParams); % initialize at zeros
+    while nUnchanged < 10       % "Convergence" test. This could be better.
         starts = starts + 1;    % add 1 to starts
 %         starts
 
         %set fminunc starting values
-        x0 = zeros(1,numParams); % initialize at zeros
         for p = 1:numParams
             x0(p) = unifrnd(param(p).lb, param(p).ub); %pick random starting values
         end
-        % find min negative log likelihood = maximum likelihood for each
-        % subject
-        transformed_x0 = transform_params(x0, paramNames);
-        disp(['x0 = [' num2str(x0) '] transformed_x0 = [' num2str(transformed_x0) ']']);
 
+        % find min negative log likelihood = maximum likelihood for each subject
+        transformed_x0 = transform_params(x0, paramNames);
+        if (veryverbose == 1)
+            disp(['x0 = [' num2str(x0) '] transformed_x0 = [' num2str(transformed_x0) ']']);
+        end
+        d1 = datetime;
         [x,nloglik,exitflag,output,~,~] = fminunc(f, transformed_x0, options);
         transformed_x = transform_params(x, paramNames);
+        d2 = datetime;
+        time_taken = round(minutes(d2-d1), 2);
 
 %         if exitflag ~= 1
 %             disp("oop")
@@ -137,17 +141,18 @@ for sub = submat;
         end
 
         if (veryverbose == 1)
-            disp(['subject ' num2str(sub) ': start ' num2str(starts) '(' num2str(nUnchanged) '): NLL ' num2str(nloglik) ', params [' num2str(x) '], tr-params [' num2str(transformed_x) ']']);
+            disp(['subject ' num2str(sub) ': start ' num2str(starts) '(' num2str(nUnchanged) '): NLL ' num2str(nloglik) ', params [' num2str(x) '], tr-params [' num2str(transformed_x) '] Time: ' num2str(time_taken) ]);
         end
+
         % store min negative log likelihood and associated parameter values
-        if ((isfield(results, 'nLogLik') == false) || (nloglik < results.nLogLik(sub) - 0.01))
+        if ((starts == 1 || isfield(results, 'nLogLik') == false) || (nloglik < results.nLogLik(sub) - 0.01))
 
             if (verbose == 1)
-                disp(['NEW: subject ' num2str(sub) ', params ' num2str(x) ', new best params: ' ...
+                disp(['> NEW: subject ' num2str(sub) ', params ' num2str(x) ', new best params: ' ...
                     num2str(transformed_x) ', NLL: ' num2str(nloglik)]);
             end
-        
-            nUnchanged = 0; %reset to 0 if likelihood changes
+
+            nUnchanged = 0; %reset to 0 if neg likelihood decreases
 
             results.nLogLik(sub)  = nloglik;
             results.params(sub, :) = x;
@@ -182,3 +187,4 @@ for sub = submat;
     save(saveFile, 'results');
 
 end
+disp(['>>>> Done! ' datestr(datetime)]);

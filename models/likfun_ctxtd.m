@@ -22,12 +22,6 @@ alpha  = params(1);
 beta   = params(2);
 beta_c = params(3);
 
-Q        = zeros(maxTrials, numBandits);
-pc       = zeros(1, maxTrials);
-rpe       = zeros(1, maxTrials);
-
-pc(1)   = 0.5;
-
 if (length(params) > 3)
     decay = params(4);
 else
@@ -46,12 +40,6 @@ rpe       = zeros(1, maxTrials);
 runQ = zeros(numBandits, 1)+0.5;
 
 pc(1)   = 0.5;
-
-if (length(params) > 3)
-    decay = params(4);
-else
-    decay = 0;
-end
 
 for trialIdx = 1:maxTrials
     if (trialrec{trialIdx}.type > 0)
@@ -101,7 +89,8 @@ for trialIdx = 1:maxTrials
     pc(trialIdx)  = exp(persev(thisBandit) + beta*runQ(thisBandit))/denom;
 
     % Update Q value with outcome.
-    runQ(thisBandit)  = runQ(thisBandit) + alpha*(trialrec{trialIdx}.rwdval - runQ(thisBandit));
+    rpe(trialIdx) = trialrec{trialIdx}.rwdval - runQ(thisBandit);
+    runQ(thisBandit)  = runQ(thisBandit) + alpha * rpe(trialIdx);
 end
 
 % pc
