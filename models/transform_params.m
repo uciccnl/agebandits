@@ -1,4 +1,4 @@
-function transformedParams = transformParams(params, paramNames, direction)
+function transformedParams = transform_params(params, paramNames, direction)
 % function transformedParams = transformParams(params, paramNames, [direction])
 
 analysis_constants;
@@ -18,8 +18,8 @@ end
 for paramIdx = 1:length(params);
 %     paramIdx
     transformerIndex = find(cellfun(@(x)(streq(x, paramNames{paramIdx})), {paramTable{:,1}}));
+%     transformerIndex
     paramRange = paramTable{transformerIndex,2}{:};
-
     if (direction == 0)
         % min + [max-min]./[1+exp(-x)]
         transformedParams(paramIdx) = paramRange(1) + (paramRange(2)-paramRange(1))./[1+exp(-params(paramIdx))];
@@ -27,3 +27,6 @@ for paramIdx = 1:length(params);
         transformedParams(paramIdx) = -log(-1 + [paramRange(2)-paramRange(1)]./[params(paramIdx)-paramRange(1)]);
     end
 end
+
+% params(paramIdx)
+% transformedParams(paramIdx)

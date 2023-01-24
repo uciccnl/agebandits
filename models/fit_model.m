@@ -8,7 +8,7 @@ function results = fit_model(likfunToUse)
 
 verbose = 1;
 veryverbose = 1;
-mode = '_test'
+mode = '_smalltest'
 dataDir = strcat('../transformed_Data_06.13.22_FILES', mode)
 saveFile = strcat('ctxsample_results', mode)
 dataPattern = 'transformed_Data*.mat';
@@ -21,6 +21,7 @@ for s = submat;
 end
 
 analysis_constants;
+paramTable
 
 % Prior distributions for parameters
 % XXX: Auto-generate these from param table
@@ -67,10 +68,13 @@ end
 for paramIdx = 1:length(param);
     transformerIndex = find(cellfun(@(x)(streq(x, param(paramIdx).name)), {paramTable{:,1}}));
     paramRange = paramTable{transformerIndex,2}{:};
+    paramEdge = paramTable{transformerIndex,3}{:};
+    paramRange
+    paramEdge
 
     % Want to get the endpoint just off the edge, so it doesn't crash.
-    param(paramIdx).lb = transform_params(paramRange(1)+1e-5, {param(paramIdx).name}, 1);
-    param(paramIdx).ub = transform_params(paramRange(2)-1e-5, {param(paramIdx).name}, 1);
+    param(paramIdx).lb = transform_params(paramRange(1)+paramEdge, {param(paramIdx).name}, 1);
+    param(paramIdx).ub = transform_params(paramRange(2)-paramEdge, {param(paramIdx).name}, 1);
     param(paramIdx)
 end
 
@@ -96,13 +100,13 @@ for sub = submat;
 
     if likfunToUse == 1
         flags.resetQ = false;
-        f = @(x) likfun_ctxtd(transform_params(x, paramNames), dataToFit{sub}.trialrec, flags);
+        f = @(x) likfun_ctxtd(x, dataToFit{sub}.trialrec, flags);
     elseif likfunToUse == 2
         flags.numSamples = 1;
         precomputed = load(strcat('precomputed/precomputed_sub', num2str(sub), '_', num2str(flags.numSamples), '.mat'));
         flags.choicerec = precomputed.choicerec;
         flags.combs = precomputed.combs;
-        f = @(x) likfun_ctxsampler(transform_params(x, paramNames), dataToFit{sub}.trialrec, flags);
+        f = @(x) likfun_ctxsampler(x, dataToFit{sub}.trialrec, flags);
     end
 
     while nUnchanged < 50       % "Convergence" test. This could be better.
@@ -110,41 +114,44 @@ for sub = submat;
 %         starts
 
         %set fminunc starting values
-        x0 = zeros(1,numParams); % initialize at zers
+        x0 = zeros(1,numParams); % initialize at zeros
         for p = 1:numParams
             x0(p) = unifrnd(param(p).lb, param(p).ub); %pick random starting values
         end
         % find min negative log likelihood = maximum likelihood for each
         % subject
-%         x0
-%         f(x0)
-        [x,nloglik,exitflag,output,~,~] = fminunc(f, x0, options);
+        transformed_x0 = transform_params(x0, paramNames);
+        disp(['x0 = [' num2str(x0) '] transformed_x0 = [' num2str(transformed_x0) ']']);
+
+        [x,nloglik,exitflag,output,~,~] = fminunc(f, transformed_x0, options);
+        transformed_x = transform_params(x, paramNames);
+
 %         if exitflag ~= 1
 %             disp("oop")
 %             [x, nloglik,exitflag,output] = fminsearch(f, x0, searchopts);
 %         end
 %         
         if exitflag ~= 1
-%             disp(['Failure to converge']);
+            disp(['Failure to converge']);
             continue;
         end
 
         if (veryverbose == 1)
-            disp(['subject ' num2str(sub) ': start ' num2str(starts) '(' num2str(nUnchanged) '): NLL ' num2str(nloglik) ', params [' num2str(x) '], tr-params [' num2str(transform_params(x, paramNames)) ']']);
+            disp(['subject ' num2str(sub) ': start ' num2str(starts) '(' num2str(nUnchanged) '): NLL ' num2str(nloglik) ', params [' num2str(x) '], tr-params [' num2str(transformed_x) ']']);
         end
         % store min negative log likelihood and associated parameter values
         if ((isfield(results, 'nLogLik') == false) || (nloglik < results.nLogLik(sub) - 0.01))
 
             if (verbose == 1)
                 disp(['NEW: subject ' num2str(sub) ', params ' num2str(x) ', new best params: ' ...
-                    num2str(transform_params(x, paramNames)) ', NLL: ' num2str(nloglik)]);
+                    num2str(transformed_x) ', NLL: ' num2str(nloglik)]);
             end
         
             nUnchanged = 0; %reset to 0 if likelihood changes
 
             results.nLogLik(sub)  = nloglik;
             results.params(sub, :) = x;
-            results.transformedParams(sub, :) = transform_params(x, paramNames);
+            results.transformedParams(sub, :) = transformed_x;
 
             useLogLik = nloglik;
 
