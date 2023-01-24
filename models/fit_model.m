@@ -6,7 +6,8 @@ function results = fit_model(likfunToUse)
 %   likfunToUse = 2 (currently supported values = [2])
 %
 
-veryverbose = 1
+verbose = 1;
+veryverbose = 1;
 mode = '_test'
 dataDir = strcat('../transformed_Data_06.13.22_FILES', mode)
 saveFile = strcat('ctxsample_results', mode)
@@ -15,8 +16,8 @@ dataPattern = 'transformed_Data*.mat';
 dd = dir(fullfile(dataDir, dataPattern));
 submat = [1:length(dd)];
 
-for sub = submat;
-    dataToFit{sub} = loadSubj(sub, dataDir, dataPattern);
+for s = submat;
+    dataToFit{s} = loadSubj(s, dataDir, dataPattern);
 end
 
 analysis_constants;
@@ -24,16 +25,16 @@ analysis_constants;
 % Prior distributions for parameters
 % XXX: Auto-generate these from param table
 flags.pp_alpha = @(x)(pdf('beta', x, 1.1, 1.1));                  % Beta prior for \alphas (from Daw et al 2011 Neuron)
-flags.pp_pi    = @(x)(pdf('beta', abs(x), 1.1, 1.1));             % symmetric Beta prior for \alpha bump (from Daw et al 2011 Neuron)
+% flags.pp_pi    = @(x)(pdf('beta', abs(x), 1.1, 1.1));             % symmetric Beta prior for \alpha bump (from Daw et al 2011 Neuron)
 
 % flags.pp_beta = @(x)(pdf('gamma', x, 1.2, 5));                  % Gamma prior for softmax \beta (from Daw et al 2011 Neuron)
 low_bound = paramTable{2,2}{1}(1);
 upp_bound = paramTable{2,2}{1}(2);
-flags.pp_beta  = @(x)(pdf('beta', (x-low_bound)/(upp_bound-low_bound), 1.1, 1.1));            % Beta prior for \alphas (from Daw et al 2011 Neuron)
+flags.pp_beta  = @(x)(pdf('normal', (x-low_bound)/(upp_bound-low_bound), 0, 10));            % Beta prior for \alphas (from Daw et al 2011 Neuron)
 
 low_bound = paramTable{3,2}{1}(1);
 upp_bound = paramTable{3,2}{1}(2);
-flags.pp_betaC = @(x)(pdf('beta', (x-low_bound)/(upp_bound-low_bound), 1.1, 1.1));            % Beta prior for \alphas (from Daw et al 2011 Neuron)
+flags.pp_betaC = @(x)(pdf('normal', (x-low_bound)/(upp_bound-low_bound), 0, 10));            % Beta prior for \alphas (from Daw et al 2011 Neuron)
 
 
 %% Set up parameter space
@@ -70,16 +71,16 @@ for paramIdx = 1:length(param);
     % Want to get the endpoint just off the edge, so it doesn't crash.
     param(paramIdx).lb = transform_params(paramRange(1)+1e-5, {param(paramIdx).name}, 1);
     param(paramIdx).ub = transform_params(paramRange(2)-1e-5, {param(paramIdx).name}, 1);
+    param(paramIdx)
 end
-
 
 %% Important things to pass to fminunc
 numParams = length(param); %specify number of parameters
-lb = [param.lb]; %specify lower and upper bounds of parameters
-ub = [param.ub];
+% lb = [param.lb]; %specify lower and upper bounds of parameters
+% ub = [param.ub];
 
 % define options for fminunc
-options = optimoptions('fminunc','Display','off','HessianApproximation','lbfgs');
+options = optimset('Display','off');
 searchopts  = optimset('Display','off','TolCon',1e-6,'TolFun',1e-5,'TolX',1e-5,...
                        'DiffMinChange',1e-4,'Maxiter',1000,'MaxFunEvals',2000);
 
@@ -89,25 +90,27 @@ results.numParams = numParams;
 % for sub = 1:nSubs
 for sub = submat;
     disp(['Fitting subject ' int2str(sub)]);
-    
-    flags.numSamples = 1;
-    precomputed = load(strcat('precomputed/precomputed_sub', num2str(sub), '_', num2str(flags.numSamples), '.mat'));
-    flags.choicerec = precomputed.choicerec;
-    flags.combs = precomputed.combs;
 
     nUnchanged = 0;
     starts = 0;
+
+    if likfunToUse == 1
+        flags.resetQ = false;
+        f = @(x) likfun_ctxtd(transform_params(x, paramNames), dataToFit{sub}.trialrec, flags);
+    elseif likfunToUse == 2
+        flags.numSamples = 1;
+        precomputed = load(strcat('precomputed/precomputed_sub', num2str(sub), '_', num2str(flags.numSamples), '.mat'));
+        flags.choicerec = precomputed.choicerec;
+        flags.combs = precomputed.combs;
+        f = @(x) likfun_ctxsampler(transform_params(x, paramNames), dataToFit{sub}.trialrec, flags);
+    end
+
     while nUnchanged < 50       % "Convergence" test. This could be better.
         starts = starts + 1;    % add 1 to starts
 %         starts
-        if likfunToUse == 1
-            f = @(x) likfun_ctxtd(transform_params(x, paramNames), dataToFit{sub}.trialrec, flags);
-        elseif likfunToUse == 2
-            f = @(x) likfun_ctxsampler(transform_params(x, paramNames), dataToFit{sub}.trialrec, flags);
-        end
 
         %set fminunc starting values
-        x0 = zeros(1,numParams); % initialize at zero
+        x0 = zeros(1,numParams); % initialize at zers
         for p = 1:numParams
             x0(p) = unifrnd(param(p).lb, param(p).ub); %pick random starting values
         end
@@ -116,23 +119,24 @@ for sub = submat;
 %         x0
 %         f(x0)
         [x,nloglik,exitflag,output,~,~] = fminunc(f, x0, options);
-        if exitflag ~= 1
-            disp("oop")
-            [x, nloglik,exitflag,output] = fminsearch(f, x0, searchopts);
-        end
+%         if exitflag ~= 1
+%             disp("oop")
+%             [x, nloglik,exitflag,output] = fminsearch(f, x0, searchopts);
+%         end
 %         
         if exitflag ~= 1
-            disp(['Failure to converge']);
+%             disp(['Failure to converge']);
             continue;
         end
 
-        disp(['subject ' num2str(sub) ': start ' num2str(starts) '(' num2str(nUnchanged) '): NLL ' num2str(nloglik) ', tr-params [', num2str(transform_params(x, paramNames)) ']']);
-
+        if (veryverbose == 1)
+            disp(['subject ' num2str(sub) ': start ' num2str(starts) '(' num2str(nUnchanged) '): NLL ' num2str(nloglik) ', params [' num2str(x) '], tr-params [' num2str(transform_params(x, paramNames)) ']']);
+        end
         % store min negative log likelihood and associated parameter values
-        if (starts == 1 || nloglik < results.nLogLik(sub) - 0.01)
-            
-            if (veryverbose == 1)
-                disp(['fit_model:' 'likfunToUse ' likfunToUse 'Subject ' num2str(sub) ', new best params: ' ...
+        if ((isfield(results, 'nLogLik') == false) || (nloglik < results.nLogLik(sub) - 0.01))
+
+            if (verbose == 1)
+                disp(['NEW: subject ' num2str(sub) ', params ' num2str(x) ', new best params: ' ...
                     num2str(transform_params(x, paramNames)) ', NLL: ' num2str(nloglik)]);
             end
         
@@ -168,14 +172,6 @@ for sub = submat;
 %     strcat('final AIC ', num2str(results.AIC(sub)))
 %     strcat('final BIC ', num2str(results.BIC(sub)))
 %     strcat('final params ', num2str(results.params(sub, :)))
-
-
-%     disp(['Subject ' num2str(sub) ': Final MAP ' num2str(results.nLogLik(sub)) ...
-%         ', final AIC ' num2str(results.AIC(sub)) ...
-%         ', final BIC ' num2str(results.BIC(sub)) ...
-% %         ', final Laplace ' num2str(results.laplace(sub)) ...
-%         ', final params [' num2str(results.params(sub,:)) ']']);
-
     save(saveFile, 'results');
 
 end

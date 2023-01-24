@@ -1,5 +1,4 @@
 function [nloglik Q rpe pc]= likfun_ctxsampler(params, trialrec, flags)
-% WIP.
 %
 % Likelihood function for memory sampling model
 
@@ -26,7 +25,7 @@ choiceTrials    = cellfun(@(x)(x.choice>-1 & x.type==0), trialrec(1:maxTrials));
 choiceTrials    = find(choiceTrials);
 % choiceTrials    = choiceTrials(1:maxTrials)
 
-averageQ = 0;
+% averageQ = 0;
 
 alpha  = params(1);
 beta   = params(2);
@@ -74,25 +73,25 @@ for trialIdx = 2:maxTrials
 %         disp([size(pval{b})]);
 %         sum(rwdval{bi} .* pval{bi})
         Q(trialIdx, b)             = sum(rwdval{b} .* pval{b});
-        rpe(trialIdx) = trialrec{trialIdx}.rwdval - Q(trialIdx, chosenBandit);
+%         rpe(trialIdx) = trialrec{trialIdx}.rwdval - Q(trialIdx, chosenBandit);
     end
     
 %     chosenBandit
 %     rwdval{chosenBandit}
     
-    if (averageQ)
-        denom = 0;
-        for b=1:numBandits
-            denom = denom + exp(beta_c .* (prevChosenBandit == b) + beta .* Q(trialIdx, b));
-        end
-        pc(trialIdx) = max(1e-32, exp(beta_c .* (prevChosenBandit == chosenBandit) + beta .* Q(trialIdx, chosenBandit)) ./ denom);
-    else
+%     if (averageQ)
+%         denom = 0;
+%         for b=1:numBandits
+%             denom = denom + exp(beta_c .* (prevChosenBandit == b) + beta .* Q(trialIdx, b));
+%         end
+%         pc(trialIdx) = max(1e-32, exp(beta_c .* (prevChosenBandit == chosenBandit) + beta .* Q(trialIdx, chosenBandit)) ./ denom);
+%     else
 
-        rvmat1 = [];
-        rvmat2 = [];
-        rvmat = [];
-        pmat1  = [];
-        pmat2  = [];
+%         rvmat1 = [];
+%         rvmat2 = [];
+%         rvmat = [];
+%         pmat1  = [];
+%         pmat2  = [];
 
         nonChosenBandits = find((1:numBandits) ~= chosenBandit);
         
@@ -151,10 +150,8 @@ for trialIdx = 2:maxTrials
 
         softmaxterm = 1./(1 + rvmat);
 %         softmaxterm
-        prob = sum(pmat2.*softmaxterm');
-%         prob
-        pc(trialIdx) = max(prob, 1e-32);
-    end
+        pc(trialIdx) = max(sum(pmat2.*softmaxterm'), 1e-32);
+%     end
 end
 
 
