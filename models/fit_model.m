@@ -6,17 +6,19 @@ function results = fit_model(likfunToUse)
 %   likfunToUse = 2 (currently supported values = [2])
 %
 
+startSubject = 1
+
 verbose = 1;
 veryverbose = 1;
 mode = '_test'
-dataDir = strcat('../transformed_Data_06.13.22_FILES', mode)
+dataDir = strcat('data', mode)
 saveFile = strcat('ctxsample_results', mode)
 dataPattern = 'transformed_Data*.mat';
 
 dd = dir(fullfile(dataDir, dataPattern));
-submat = [1:length(dd)];
+nSubs = length(dd);
 
-for s = submat;
+for s = 1:nSubs
     dataToFit{s} = loadSubj(s, dataDir, dataPattern);
 end
 
@@ -88,12 +90,13 @@ options = optimset('Display','off');
 searchopts  = optimset('Display','off','TolCon',1e-6,'TolFun',1e-5,'TolX',1e-5,...
                        'DiffMinChange',1e-4,'Maxiter',1000,'MaxFunEvals',2000);
 
-% Set up results structure
-results.numParams = numParams;
-
-% for sub = 1:nSubs
-for sub = submat;
+for sub = startSubject:nSubs
+% for sub = submat;
     disp(['>>> Fitting subject ' int2str(sub) ' ' datestr(datetime)]);
+
+    % Set up results structure
+    results{sub}.numParams = numParams;
+    results{sub}.nLogLik = Inf;
 
     nUnchanged = 0;
     starts = 0;
@@ -109,12 +112,12 @@ for sub = submat;
         f = @(x) likfun_ctxsampler(x, dataToFit{sub}.trialrec, flags);
     end
 
-    x0 = zeros(1,numParams); % initialize at zeros
     while nUnchanged < 10       % "Convergence" test. This could be better.
         starts = starts + 1;    % add 1 to starts
 %         starts
 
         %set fminunc starting values
+        x0 = zeros(1,numParams); % initialize at zeros
         for p = 1:numParams
             x0(p) = unifrnd(param(p).lb, param(p).ub); %pick random starting values
         end
@@ -122,7 +125,7 @@ for sub = submat;
         % find min negative log likelihood = maximum likelihood for each subject
         transformed_x0 = transform_params(x0, paramNames);
         if (veryverbose == 1)
-            disp(['x0 = [' num2str(x0) '] transformed_x0 = [' num2str(transformed_x0) ']']);
+            disp(['> x0 = [' num2str(x0) '] transformed_x0 = [' num2str(transformed_x0) ']']);
         end
         d1 = datetime;
         [x,nloglik,exitflag,output,~,~] = fminunc(f, transformed_x0, options);
@@ -136,55 +139,59 @@ for sub = submat;
 %         end
 %         
         if exitflag ~= 1
-            disp(['Failure to converge']);
+            disp('Failure to converge')
             continue;
         end
 
         if (veryverbose == 1)
-            disp(['subject ' num2str(sub) ': start ' num2str(starts) '(' num2str(nUnchanged) '): NLL ' num2str(nloglik) ', params [' num2str(x) '], tr-params [' num2str(transformed_x) '] Time: ' num2str(time_taken) ]);
+            disp(['subject ' num2str(sub) ': start ' num2str(starts) '(' num2str(nUnchanged) '): NLL ' ...
+                num2str(nloglik) ', params: [' num2str(x) ...
+                '], tr-params: [' num2str(transformed_x) '] Time: ' num2str(time_taken) 'mins' ]);
         end
 
         % store min negative log likelihood and associated parameter values
-        if ((starts == 1 || isfield(results, 'nLogLik') == false) || (nloglik < results.nLogLik(sub) - 0.01))
+        if (nloglik < results{sub}.nLogLik - 0.01)
 
             if (verbose == 1)
-                disp(['> NEW: subject ' num2str(sub) ', params ' num2str(x) ', new best params: ' ...
-                    num2str(transformed_x) ', NLL: ' num2str(nloglik)]);
+                disp(['NEW best params: subject ' num2str(sub) ', NLL: ' num2str(nloglik) ...
+                    ', Previous NLL: ' num2str(results{sub}.nLogLik) ...
+                    ', params: [' num2str(x) '], tr-params: [' num2str(transformed_x) ']']);
             end
 
             nUnchanged = 0; %reset to 0 if neg likelihood decreases
 
-            results.nLogLik(sub)  = nloglik;
-            results.params(sub, :) = x;
-            results.transformedParams(sub, :) = transformed_x;
+            results{sub}.nLogLik  = nloglik;
+            results{sub}.params = x;
+            results{sub}.transformedParams = transformed_x;
 
             useLogLik = nloglik;
 
-            results.useLogLik(sub) = useLogLik;
-            results.AIC(sub) = 2*length(x) + 2*useLogLik;
-            results.BIC(sub) = 0.5*length(x)*log(180) + useLogLik;
-            results.model(sub) = likfunToUse;
-            results.exitflag(sub) = exitflag;
-            results.output(sub) = output;
-%             results.grad(sub,:) = grad;
-%             results.hessian(sub,:,:,:,:) = hessian;
-%             results.laplace(sub) = nloglik + (0.5*length(x)*log(2*pi)) - 0.5*log(det(hessian));
+            results{sub}.useLogLik = useLogLik;
+            results{sub}.AIC = 2*length(x) + 2*useLogLik;
+            results{sub}.BIC = 0.5*length(x)*log(180) + useLogLik;
+            results{sub}.model = likfunToUse;
+            results{sub}.exitflag = exitflag;
+            results{sub}.output = output;
+%             results{sub}.grad(sub,:) = grad;
+%             results{sub}.hessian(sub,:,:,:,:) = hessian;
+%             results{sub}.laplace(sub) = nloglik + (0.5*length(x)*log(2*pi)) - 0.5*log(det(hessian));
             [~, Q, rpe, pc] = f(x);        % Run it again to get the Q and pc
-            results.runQ{sub} = Q;
-            results.pc{sub} = pc;
-            results.rpe{sub} = rpe;
+            results{sub}.runQ = Q;
+            results{sub}.pc = pc;
+            results{sub}.rpe = rpe;
         else
             nUnchanged = nUnchanged + 1;
-        end  % if starts == 1
+        end  % if nloglik < results{sub}.nloglik
     end % while
-% 
+
 %     'Final'
 %     strcat('Subject ', num2str(sub))
 %     strcat(': Final MAP ', num2str(results.nLogLik(sub)))
 %     strcat('final AIC ', num2str(results.AIC(sub)))
 %     strcat('final BIC ', num2str(results.BIC(sub)))
 %     strcat('final params ', num2str(results.params(sub, :)))
-    save(saveFile, 'results');
+    save(strcat(saveFile, num2str(startSubject), '_', num2str(sub)), 'results');
 
 end
+
 disp(['>>>> Done! ' datestr(datetime)]);
