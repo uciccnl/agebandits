@@ -55,6 +55,7 @@ for trialIdx = 2:maxTrials
         continue;
     end
     
+    % Sampler
     for b = 1:numBandits
         bPrevIdxs   = reshape(combs{trialIdx, b}.', 1, []);
         rwdval{b}  = [choicerec(bPrevIdxs, 2)'];
@@ -71,10 +72,8 @@ for trialIdx = 2:maxTrials
         rpe(trialIdx) = trialrec{trialIdx}.rwdval - Q(trialIdx, chosenBandit);
     end
 
-    % Save record of Q-values used to make this choice.
-    Q_td(trialIdx, :) = runQ;
-
-    % Update runQ value with outcome.
+    % TD
+    Q_td(trialIdx, :) = runQ;   % Save record of Q-values used to make TD-model based choice.
     rpe_td(trialIdx) = trialrec{trialIdx}.rwdval - runQ(chosenBandit);
     runQ(chosenBandit)  = runQ(chosenBandit) + alpha_td * rpe(trialIdx);
     
@@ -101,8 +100,8 @@ for trialIdx = 2:maxTrials
 %             rvmat2 = [rvmat2; exp(beta_c.* ((otherBandit2 == prevChosenBandit) - (chosenBandit == prevChosenBandit)) - beta .* (rwdval{chosenBandit}(r) - rwdval{otherBandit2}(:)))];
 %         end
 
-        rvmat1 = arrayfun(@(x)(exp(beta_c.*(I1 - Ic) - beta_td .* (runQ(otherBandit1) - runQ(chosenBandit)) - beta.*(x - rwdval{otherBandit1}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
-        rvmat2 = arrayfun(@(x)(exp(beta_c.*(I2 - Ic) - beta_td .* (runQ(otherBandit2) - runQ(chosenBandit)) - beta.*(x - rwdval{otherBandit2}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
+        rvmat1 = arrayfun(@(x)(exp(beta_c.*(I1 - Ic) - beta_td .* (runQ(chosenBandit) - runQ(otherBandit1)) - beta.*(x - rwdval{otherBandit1}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
+        rvmat2 = arrayfun(@(x)(exp(beta_c.*(I2 - Ic) - beta_td .* (runQ(chosenBandit) - runQ(otherBandit2)) - beta.*(x - rwdval{otherBandit2}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
 
         rvmat1 = [rvmat1{:}];
         rvmat2 = [rvmat2{:}];
@@ -150,4 +149,6 @@ nloglik = -sum(log(pc(choiceTrials)));
 nloglik = nloglik - log(flags.pp_alpha(alpha));
 nloglik = nloglik - log(flags.pp_beta(beta));
 nloglik = nloglik - log(flags.pp_betaC(beta_c));
+nloglik = nloglik - log(flags.pp_alpha(alpha_td));
+nloglik = nloglik - log(flags.pp_beta(beta_td));
 end
