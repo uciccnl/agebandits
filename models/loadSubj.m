@@ -1,19 +1,19 @@
-function [sd, bv] = loadSubj(subj, datadir, datapattern)
+function [sd, filename] = loadSubj(subj, datadir, dd)
 % function [sd bv] = loadSubj(subj, [datadir='.'], [datapattern='*.mat'])
 %
 
-if (nargin < 2)
-    datadir = '.';
-end
+% if (nargin < 2)
+%     datadir = '.';
+% end
+% 
+% if (nargin < 3)
+%     datapattern = '*.mat';
+% end
 
-if (nargin < 3)
-    datapattern = '*.mat';
-end
-
-dd = dir(fullfile(datadir, datapattern));
+% dd = dir(fullfile(datadir, datapattern));
 sd = load(fullfile(datadir, dd(subj).name));
-disp([dd(subj).name]);
-bv  = {};
+filename  = dd(subj).name;
+disp(filename);
 % if (0)
 %     bvdir = [datadir 'badvols/'];
 %     dbv = dir(fullfile(bvdir, ['badvols_' ...

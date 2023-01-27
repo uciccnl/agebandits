@@ -1,4 +1,4 @@
-param_to_plot = 'alpha'
+param_to_plot = 'beta'
 
 analysis_constants;
 paramNames = {'alpha', 'beta', 'beta_c'};
@@ -9,11 +9,12 @@ param(2).name = paramNames{2};
 param(3).name = paramNames{3};
 
 paramRange = paramTable{paramIdx,2}{:};
+paramEdge = paramTable{paramIdx,3}{:};
 paramIdx
 paramRange
 
-param(paramIdx).lb = transform_params(paramRange(1)+0.05, {param(paramIdx).name}, 1);
-param(paramIdx).ub = transform_params(paramRange(2)-0.05, {param(paramIdx).name}, 1);
+param(paramIdx).lb = transform_params(paramRange(1)+paramEdge, {param(paramIdx).name}, 1);
+param(paramIdx).ub = transform_params(paramRange(2)-paramEdge, {param(paramIdx).name}, 1);
 
 param(paramIdx)
 

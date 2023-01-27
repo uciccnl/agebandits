@@ -1,6 +1,6 @@
-function [nloglik Q rpe pc]= likfun_ctxsampler(params, trialrec, flags)
+function [nloglik Q rpe pc]= likfun_ctxhybrid(params, trialrec, flags)
 %
-% Likelihood function for memory sampling model
+% Likelihood function for memory sampling + TD model
 
 % INPUTS
 %   trialrec
@@ -30,13 +30,18 @@ choiceTrials    = find(choiceTrials);
 alpha  = params(1);
 beta   = params(2);
 beta_c = params(3);
+alpha_td = params(4);
+beta_td = params(5);
 
 combs     = flags.combs{numSamples};
 choicerec = flags.choicerec;
 
 Q        = zeros(maxTrials, numBandits);
+Q_td     = zeros(maxTrials, numBandits);
 pc       = zeros(1, maxTrials);
-rpe       = zeros(1, maxTrials);
+rpe      = zeros(1, maxTrials);
+rpe_td   = zeros(1, maxTrials);
+runQ     = zeros(numBandits, 1)+0.5;
 
 pc(1)   = 0.5;
 
@@ -65,6 +70,13 @@ for trialIdx = 2:maxTrials
         Q(trialIdx, b)             = sum(rwdval{b} .* pval{b});
         rpe(trialIdx) = trialrec{trialIdx}.rwdval - Q(trialIdx, chosenBandit);
     end
+
+    % Save record of Q-values used to make this choice.
+    Q_td(trialIdx, :) = runQ;
+
+    % Update runQ value with outcome.
+    rpe_td(trialIdx) = trialrec{trialIdx}.rwdval - runQ(chosenBandit);
+    runQ(chosenBandit)  = runQ(chosenBandit) + alpha_td * rpe(trialIdx);
     
 
 %     if (averageQ)
@@ -89,8 +101,8 @@ for trialIdx = 2:maxTrials
 %             rvmat2 = [rvmat2; exp(beta_c.* ((otherBandit2 == prevChosenBandit) - (chosenBandit == prevChosenBandit)) - beta .* (rwdval{chosenBandit}(r) - rwdval{otherBandit2}(:)))];
 %         end
 
-        rvmat1 = arrayfun(@(x)(exp(beta_c.*(I1 - Ic) - beta.*(x - rwdval{otherBandit1}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
-        rvmat2 = arrayfun(@(x)(exp(beta_c.*(I2 - Ic) - beta.*(x - rwdval{otherBandit2}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
+        rvmat1 = arrayfun(@(x)(exp(beta_c.*(I1 - Ic) - beta_td .* (runQ(otherBandit1) - runQ(chosenBandit)) - beta.*(x - rwdval{otherBandit1}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
+        rvmat2 = arrayfun(@(x)(exp(beta_c.*(I2 - Ic) - beta_td .* (runQ(otherBandit2) - runQ(chosenBandit)) - beta.*(x - rwdval{otherBandit2}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
 
         rvmat1 = [rvmat1{:}];
         rvmat2 = [rvmat2{:}];
@@ -109,7 +121,6 @@ for trialIdx = 2:maxTrials
 %             rvmat = [rvmat; sum(rwdcombs, 2)];
 %         end
 
-% reshape(rvmat1(i*k+1:(i+1)*k) + rvmat2(i*l+1:(i+1)*l)', 1, [])
         rvmat = arrayfun(@(i)(reshape(rvmat1(i*k+1:(i+1)*k) + rvmat2(i*l+1:(i+1)*l)', 1, [])'), (0:j-1), 'UniformOutput', false);
         rvmat = vertcat(rvmat{:});
 
