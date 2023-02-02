@@ -1,17 +1,14 @@
-function results = fit_model(likfunToUse)
-%
-% This function takes as input a likelihood function to fit to
-%
-%   likfunToUse = 1, 2, 3
-%
+function results = fit_model()
 
+mode = '';
+likfunToUse = 3; % 1, 2 or 3.
 startSubject = 1;
+iterations = 10;
+saveFile = strcat('resultmatfiles/ctxhybrid_results', mode)
 
 verbose = 1;
 veryverbose = 1;
-mode = ''
 dataDir = strcat('agebandits/data', mode)
-saveFile = strcat('ctxsamplerv2_results', mode)
 dataPattern = 'transformed_Data*.mat';
 
 % set up data
@@ -28,7 +25,8 @@ flags.pp_alpha = @(x)(pdf('beta', x, 1.1, 1.1));                  % Beta prior f
 % flags.pp_beta = @(x)(pdf('gamma', x, 1.2, 5));                  % Gamma prior for softmax \beta (from Daw et al 2011 Neuron)
 low_bound = paramTable{2,2}{1}(1);
 upp_bound = paramTable{2,2}{1}(2);
-flags.pp_beta  = @(x)(pdf('exp', (x-low_bound)/(upp_bound-low_bound), 1));            % Beta prior for \alphas (from Daw et al 2011 Neuron)
+
+flags.pp_beta  = @(x)(pdf('normal', (x-low_bound)/(upp_bound-low_bound), 0, 10));            % Beta prior for \alphas (from Daw et al 2011 Neuron)
 
 low_bound = paramTable{3,2}{1}(1);
 upp_bound = paramTable{3,2}{1}(2);
@@ -42,6 +40,8 @@ if (likfunToUse == 1)
     disp('Fitting TD Model');
 elseif (likfunToUse == 2)
     disp('Fitting Sampler Model');
+elseif likfunToUse == 3 %hybrid model
+    disp('Fitting Hybrid (TD+Sampler) Model');
 end
 
 % Alpha - learning /decay rate
@@ -52,7 +52,6 @@ param(2).name = 'beta';
 param(3).name = 'beta_c';
 
 if likfunToUse == 3 %hybrid model
-    disp('Fitting Hybrid (TD+Sampler) Model');
     param(1).name = 'alpha';        % Sampler
     param(2).name = 'beta';
 
@@ -90,9 +89,6 @@ for paramIdx = 1:length(param)
     param(paramIdx)
 end
 
-
-
-
 %% Important things to pass to fminunc
 numParams = length(param); %specify number of parameters
 % lb = [param.lb]; %specify lower and upper bounds of parameters
@@ -103,7 +99,7 @@ options = optimset('Display','off');
 searchopts  = optimset('Display','off','TolCon',1e-6,'TolFun',1e-5,'TolX',1e-5,...
                        'DiffMinChange',1e-4,'Maxiter',1000,'MaxFunEvals',2000);
 
-for sub = startSubject:startSubject
+for sub = startSubject:nSubs
     ds1 = datetime;
 
     disp([newline '>>> Fitting subject ' int2str(sub) ' ' datestr(datetime)]);
@@ -120,6 +116,7 @@ for sub = startSubject:startSubject
 
     if likfunToUse == 1
         flags.resetQ = false;
+        flags.signed_LR = false;
         f = @(x) likfun_ctxtd(transform_params(x, paramNames), dataToFit{sub}.trialrec, flags);
     elseif likfunToUse == 2
         flags.numSamples = 1;
@@ -136,7 +133,7 @@ for sub = startSubject:startSubject
         f = @(x) likfun_ctxhybrid(transform_params(x, paramNames), dataToFit{sub}.trialrec, flags);
     end
 
-    while nUnchanged < 10       % "Convergence" test. This could be better.
+    while nUnchanged < iterations       % "Convergence" test. This could be better.
         d1 = datetime;
         starts = starts + 1;    % add 1 to starts
 %         starts
@@ -152,7 +149,7 @@ for sub = startSubject:startSubject
         [xf,nloglik,exitflag,output,~,~] = fminunc(f, transformed_x0, options);
         transformed_xf = transform_params(xf, paramNames);      % to valid space output of fminunc
 
-        if (veryverbose == 1)
+        if (verbose == 1)
             disp(['> valid_x0=[' num2str(x0) ']  raw_x0=[' num2str(transformed_x0) ']  raw_xf=[' num2str(xf) '] valid_xf=[' num2str(transformed_xf) ']']);
         end
         
@@ -165,17 +162,17 @@ for sub = startSubject:startSubject
 %         end
 %         
         if exitflag ~= 1
-            disp('Failure to converge')
-        end
-
-        if (veryverbose == 1)
-            disp(['subject ' num2str(sub) ': start ' num2str(starts) '(' num2str(nUnchanged) '): NLL ' ...
-                num2str(nloglik) ', params: [' num2str(xf) ...
-                '], tr-params: [' num2str(transformed_xf) '] Time: ' num2str(time_taken) 'mins' ]);
+            disp('Failed to converge')
+        else
+            if (veryverbose == 1)
+                disp(['subject ' num2str(sub) ': start ' num2str(starts) '(' num2str(nUnchanged) '): NLL ' ...
+                    num2str(nloglik) ', params: [' num2str(xf) ...
+                    '], tr-params: [' num2str(transformed_xf) '] Time: ' num2str(time_taken) 'mins' ]);
+            end
         end
 
         % store min negative log likelihood and associated parameter values
-        if (starts == 1 || nloglik < results{sub}.nLogLik - 0.01)
+        if (starts == 1 || nloglik < results{sub}.nLogLik)
 
             if (verbose == 1)
                 disp(['NEW best params: subject ' num2str(sub) ', NLL: ' num2str(nloglik) ...
@@ -215,7 +212,7 @@ for sub = startSubject:startSubject
                  if (~isinf(log(flags.pp_alpha(xf(4)))) && ~isnan(log(flags.pp_alpha(xf(4))))) %alphaTD
                     useLogLik = useLogLik + log(flags.pp_alpha(xf(4)));
                  end
-                 if (~isinf(log(flags.pp_beta(x(5)))) && ~isnan(log(flags.pp_beta(x(5))))) %betaTD
+                 if (~isinf(log(flags.pp_beta(xf(5)))) && ~isnan(log(flags.pp_beta(xf(5))))) %betaTD
                     useLogLik = useLogLik + log(flags.pp_beta(xf(5)));
                  end
             end

@@ -16,6 +16,8 @@ choiceTrials    = cellfun(@(x)(x.choice>-1 & x.type==0), trialrec(1:maxTrials));
 choiceTrials    = find(choiceTrials);
 % choiceTrials    = choiceTrials(1:maxTrials)
 
+% choiceTrials
+
 % params
 alpha  = params(1);
 beta   = params(2);
@@ -36,9 +38,7 @@ end
 Q        = zeros(maxTrials, numBandits);
 pc       = zeros(1, maxTrials);
 rpe      = zeros(1, maxTrials);
-runQ     = zeros(numBandits, 1) + 0.5;
-
-pc(1)   = 0.5;
+runQ     = zeros(numBandits, 1);
 
 for trialIdx = 1:maxTrials
 
@@ -46,7 +46,7 @@ for trialIdx = 1:maxTrials
     % if resetTrial is set to (logical) 'true', then this will be trial '1' of the new context.
     % if resetTrial is numeric, then it will be at that trial number.
 %     if (resetTrial && mod(trialIdx, 30) == resetTrial)
-%         runQ = zeros(numBandits, 1)+0.5;
+%         runQ = zeros(numBandits, 1)+0.33;
 %     end
 
 %     if (~resetTrial && mod(trialIdx, 30) == 1)
@@ -59,14 +59,15 @@ for trialIdx = 1:maxTrials
 
     % Bandits are coded 0:2 - set to 1:3 so we can index the Q array.
     chosenBandit = trialrec{trialIdx}.choice+1;
+%     chosenBandit
+    if (chosenBandit == 0) % Invalid trial. Skip.
+        continue;
+    end
+
     if trialIdx > 1
         prevChosenBandit = trialrec{trialIdx-1}.choice + 1;
     else
         prevChosenBandit = -1;
-    end
-
-    if (chosenBandit == 0) % Invalid trial. Skip.
-        continue;
     end
 
     % Compute choice probability.

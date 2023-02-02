@@ -1,4 +1,4 @@
-function [nloglik Q rpe pc]= likfun_ctxhybrid(params, trialrec, flags)
+function [nloglik Q_td rpe_td pc]= likfun_ctxhybrid(params, trialrec, flags)
 %
 % Likelihood function for memory sampling + TD model
 
@@ -36,14 +36,14 @@ beta_td = params(5);
 combs     = flags.combs{numSamples};
 choicerec = flags.choicerec;
 
-Q        = zeros(maxTrials, numBandits);
-Q_td     = zeros(maxTrials, numBandits);
-pc       = zeros(1, maxTrials);
-rpe      = zeros(1, maxTrials);
-rpe_td   = zeros(1, maxTrials);
-runQ     = zeros(numBandits, 1)+0.5;
+% Q        = zeros(maxTrials, numBandits);
+% rpe      = zeros(1, maxTrials);
 
-pc(1)   = 0.5;
+Q_td     = zeros(maxTrials, numBandits);
+rpe_td   = zeros(1, maxTrials);
+runQ     = zeros(numBandits, 1);
+
+pc       = zeros(1, maxTrials);
 
 %%
 for trialIdx = 2:maxTrials
@@ -68,82 +68,57 @@ for trialIdx = 2:maxTrials
 
         pval{b}    = pval{b}./sum(pval{b});
         rwdval{b} = sign(rwdval{b});
-        Q(trialIdx, b)             = sum(rwdval{b} .* pval{b});
-        rpe(trialIdx) = trialrec{trialIdx}.rwdval - Q(trialIdx, chosenBandit);
     end
 
     % TD
-    Q_td(trialIdx, :) = runQ;   % Save record of Q-values used to make TD-model based choice.
+%     Q_td(trialIdx, :) = runQ;   % Save record of Q-values used to make TD-model based choice.
     rpe_td(trialIdx) = trialrec{trialIdx}.rwdval - runQ(chosenBandit);
-    runQ(chosenBandit)  = runQ(chosenBandit) + alpha_td * rpe(trialIdx);
-    
+    runQ(chosenBandit)  = runQ(chosenBandit) + alpha_td * rpe_td(trialIdx);
 
-%     if (averageQ)
-%         denom = 0;
-%         for b=1:numBandits
-%             denom = denom + exp(beta_c .* (prevChosenBandit == b) + beta .* Q(trialIdx, b));
-%         end
-%         pc(trialIdx) = max(1e-32, exp(beta_c .* (prevChosenBandit == chosenBandit) + beta .* Q(trialIdx, chosenBandit)) ./ denom);
-%     else
-
-        nonChosenBandits = find((1:numBandits) ~= chosenBandit);
+    nonChosenBandits = find((1:numBandits) ~= chosenBandit);
 %         nonChosenBandits
 
-        otherBandit1 = nonChosenBandits(1);
-        otherBandit2 = nonChosenBandits(2);
-        I1 = otherBandit1 == prevChosenBandit;
-        I2 = otherBandit2 == prevChosenBandit;
-        Ic = chosenBandit == prevChosenBandit;
+    otherBandit1 = nonChosenBandits(1);
+    otherBandit2 = nonChosenBandits(2);
+    I1 = otherBandit1 == prevChosenBandit;
+    I2 = otherBandit2 == prevChosenBandit;
+    Ic = chosenBandit == prevChosenBandit;
 
-%         for r = 1:length(rwdval{chosenBandit})
-%             rvmat1 = [rvmat1; exp(beta_c.* ((otherBandit1 == prevChosenBandit) - (chosenBandit == prevChosenBandit)) - beta .* (rwdval{chosenBandit}(r) - rwdval{otherBandit1}(:)))];
-%             rvmat2 = [rvmat2; exp(beta_c.* ((otherBandit2 == prevChosenBandit) - (chosenBandit == prevChosenBandit)) - beta .* (rwdval{chosenBandit}(r) - rwdval{otherBandit2}(:)))];
-%         end
+    rvmat1 = arrayfun(@(x)(exp(beta_c.*(I1 - Ic) - beta_td .* (runQ(chosenBandit) - runQ(otherBandit1)) - beta.*(x - rwdval{otherBandit1}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
+    rvmat2 = arrayfun(@(x)(exp(beta_c.*(I2 - Ic) - beta_td .* (runQ(chosenBandit) - runQ(otherBandit2)) - beta.*(x - rwdval{otherBandit2}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
 
-        rvmat1 = arrayfun(@(x)(exp(beta_c.*(I1 - Ic) - beta_td .* (runQ(chosenBandit) - runQ(otherBandit1)) - beta.*(x - rwdval{otherBandit1}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
-        rvmat2 = arrayfun(@(x)(exp(beta_c.*(I2 - Ic) - beta_td .* (runQ(chosenBandit) - runQ(otherBandit2)) - beta.*(x - rwdval{otherBandit2}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
-
-        rvmat1 = [rvmat1{:}];
-        rvmat2 = [rvmat2{:}];
+    rvmat1 = [rvmat1{:}];
+    rvmat2 = [rvmat2{:}];
 
 %         rvmat1
 %         rvmat2
-        
-        j = length(rwdval{chosenBandit});
-        k = length(rwdval{nonChosenBandits(1)});
-        l = length(rwdval{nonChosenBandits(2)});
-        
+    
+    j = length(rwdval{chosenBandit});
+    k = length(rwdval{nonChosenBandits(1)});
+    l = length(rwdval{nonChosenBandits(2)});
+    
 %         jkl = [j, k, l]
 
-%         for i = 0:j-1
-%             rwdcombs = allcomb(rvmat1(i*k+1:(i+1)*k), rvmat2(i*l+1:(i+1)*l));
-%             rvmat = [rvmat; sum(rwdcombs, 2)];
-%         end
+    rvmat = arrayfun(@(i)(reshape(rvmat1(i*k+1:(i+1)*k) + rvmat2(i*l+1:(i+1)*l)', 1, [])'), (0:j-1), 'UniformOutput', false);
+    rvmat = vertcat(rvmat{:});
+    
+%     rvmat
 
-        rvmat = arrayfun(@(i)(reshape(rvmat1(i*k+1:(i+1)*k) + rvmat2(i*l+1:(i+1)*l)', 1, [])'), (0:j-1), 'UniformOutput', false);
-        rvmat = vertcat(rvmat{:});
+    pmat1  = arrayfun(@(x)(x.*pval{otherBandit2}(:)'), [pval{otherBandit1}(:)], 'UniformOutput', false);
+    pmat1 = [pmat1{:}];
+    pmat2  = arrayfun(@(x)(x.*pmat1(:)'), [pval{chosenBandit}(:)], 'UniformOutput', false);
+    pmat2 = [pmat2{:}];
 
-%         rvmat
+%     pmat2
 
-%         for r = 1:length(rwdval{otherBandit1})
-%             pmat1  = [pmat1; pval{otherBandit1}(r).*pval{otherBandit2}(:)];
-%         end
-        
-%         for r = 1:length(rwdval{chosenBandit})
-%             pmat2  = [pmat2; pval{chosenBandit}(r).*pmat1(:)];
-%         end
+    softmaxterm = 1./(1 + rvmat);
+    pc(trialIdx) = max(sum(pmat2.*softmaxterm'), 1e-32);
 
-        pmat1  = arrayfun(@(x)(x.*pval{otherBandit2}(:)'), [pval{otherBandit1}(:)], 'UniformOutput', false);
-        pmat1 = [pmat1{:}];
-        pmat2  = arrayfun(@(x)(x.*pmat1(:)'), [pval{chosenBandit}(:)], 'UniformOutput', false);
-        pmat2 = [pmat2{:}];
-
-        softmaxterm = 1./(1 + rvmat);
-        pc(trialIdx) = max(sum(pmat2.*softmaxterm'), 1e-32);
-%     end
 end
 
 nloglik = -sum(log(pc(choiceTrials)));
+
+nloglik
 
 % add in the log prior probability of the parameters
 nloglik = nloglik - log(flags.pp_alpha(alpha));
@@ -151,4 +126,5 @@ nloglik = nloglik - log(flags.pp_beta(beta));
 nloglik = nloglik - log(flags.pp_betaC(beta_c));
 nloglik = nloglik - log(flags.pp_alpha(alpha_td));
 nloglik = nloglik - log(flags.pp_beta(beta_td));
+
 end
