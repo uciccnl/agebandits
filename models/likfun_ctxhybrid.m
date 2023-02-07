@@ -46,11 +46,18 @@ runQ     = zeros(numBandits, 1);
 pc       = zeros(1, maxTrials);
 
 %%
-for trialIdx = 2:maxTrials
+for trialIdx = 1:maxTrials
 %     trialIdx
 
     chosenBandit = trialrec{trialIdx}.choice + 1;
-    prevChosenBandit = trialrec{trialIdx-1}.choice + 1;
+    reward = double(trialrec{trialIdx}.rwdval);
+
+    if trialIdx > 1
+        prevChosenBandit = trialrec{trialIdx-1}.choice + 1;
+    else
+        prevChosenBandit = -1;
+    end
+
     if (chosenBandit == 0) % Invalid trial. Skip.
         continue;
     end
@@ -72,7 +79,7 @@ for trialIdx = 2:maxTrials
 
     % TD
 %     Q_td(trialIdx, :) = runQ;   % Save record of Q-values used to make TD-model based choice.
-    rpe_td(trialIdx) = trialrec{trialIdx}.rwdval - runQ(chosenBandit);
+    rpe_td(trialIdx) = reward - runQ(chosenBandit);
     runQ(chosenBandit)  = runQ(chosenBandit) + alpha_td * rpe_td(trialIdx);
 
     nonChosenBandits = find((1:numBandits) ~= chosenBandit);
@@ -116,9 +123,11 @@ for trialIdx = 2:maxTrials
 
 end
 
+% pc
+
 nloglik = -sum(log(pc(choiceTrials)));
 
-nloglik
+% nloglik
 
 % add in the log prior probability of the parameters
 nloglik = nloglik - log(flags.pp_alpha(alpha));

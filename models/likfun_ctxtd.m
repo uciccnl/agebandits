@@ -38,7 +38,7 @@ end
 Q        = zeros(maxTrials, numBandits);
 pc       = zeros(1, maxTrials);
 rpe      = zeros(1, maxTrials);
-runQ     = zeros(numBandits, 1);
+runQ     = zeros(1, numBandits);
 
 for trialIdx = 1:maxTrials
 
@@ -59,8 +59,10 @@ for trialIdx = 1:maxTrials
 
     % Bandits are coded 0:2 - set to 1:3 so we can index the Q array.
     chosenBandit = trialrec{trialIdx}.choice+1;
+    reward = double(trialrec{trialIdx}.rwdval);
 %     chosenBandit
     if (chosenBandit == 0) % Invalid trial. Skip.
+%         disp('invalid');
         continue;
     end
 
@@ -70,35 +72,25 @@ for trialIdx = 1:maxTrials
         prevChosenBandit = -1;
     end
 
-    % Compute choice probability.
-    % Was this choice the same as the last one? Perseveration term (1 if yes, 0 if no.)
-%     if (trialIdx > 1)
-%         lastChoiceTrial = trialIdx-1;
-%         if (trialrec{lastChoiceTrial}.type ~= 0)
-%             % Go to most recent choice trial, skip over the probe.
-%             lastChoiceTrial = trialIdx-2;
-%             % XXX: Maybe not?
-%         end
-% %        persev = ((trialrec{lastChoiceTrial}.choice == [0:2]).*2)-1;   % -1 if no.
-%         persev = [trialrec{lastChoiceTrial}.choice == [0:2]];
-%         persev = beta_c * persev;
-%     else
-%         persev = zeros(3,1);
-%     end
-
     nonChosenBandits = find((1:numBandits) ~= chosenBandit);
     otherBandit1 = nonChosenBandits(1);
     otherBandit2 = nonChosenBandits(2);
     I1 = otherBandit1 == prevChosenBandit;
     I2 = otherBandit2 == prevChosenBandit;
     Ic = chosenBandit == prevChosenBandit;
-
-    denom         = exp(beta_c.*I1 + beta*runQ(otherBandit1)) + exp(beta_c.*I2 + beta*runQ(otherBandit2)) + exp(beta_c.*Ic + beta*runQ(chosenBandit));
-    pc(trialIdx)  = exp(beta_c.*Ic + beta*runQ(chosenBandit))/denom;
+    pc(trialIdx)  = 1./(1+ exp(beta_c .* (I1-Ic) + beta .* (runQ(otherBandit1) - runQ(chosenBandit))) + exp(beta_c .* (I2-Ic) + beta .* (runQ(otherBandit2) - runQ(chosenBandit))));
 
     % Update Q value with outcome.
-    rpe(trialIdx) = trialrec{trialIdx}.rwdval - runQ(chosenBandit);
-    runQ(chosenBandit)  = runQ(chosenBandit) + alpha * rpe(trialIdx);
+    rpe(trialIdx) = reward - runQ(chosenBandit);
+%     rpe
+%     disp(['Before runq: ' num2str(runQ(chosenBandit), '%.3f') ' rwd: ' num2str(trialrec{trialIdx}.rwdval, '%.3f') ' rpe: ' num2str(rpe(trialIdx), '%.3f')])
+    runQ(chosenBandit) = runQ(chosenBandit) + alpha * rpe(trialIdx);
+%     disp(['After runq: ' num2str(runQ(chosenBandit)) ' alpha:' num2str(alpha) ' rpe: ' num2str(rpe(trialIdx))])
+%     disp(['t ' num2str(trialIdx) '> params: [' num2str(params) '], chosenB: ' num2str(chosenBandit) ...
+%         ', prevChosenBandit: ' num2str(prevChosenBandit) ', pc: ' num2str(pc(trialIdx)) ...
+%         ', rwdval' num2str(trialrec{trialIdx}.rwdval) ', runQ: ' num2str(runQ)  ]);
+
+%     disp([ 'params: ' num2str(params(:)) 'chosenB: ' num2str(chosenBandit) ' pc: ' num2str(pc(trialIdx)) ' runQ: ' num2str(runQ(:)) ])
 end
 
 % pc
@@ -111,3 +103,7 @@ nloglik = nloglik - log(flags.pp_alpha(alpha));
 nloglik = nloglik - log(flags.pp_beta(beta));
 nloglik = nloglik - log(flags.pp_betaC(beta_c));
 end
+
+
+%     denom         = exp(beta_c.*I1 + beta*runQ(otherBandit1)) + exp(beta_c.*I2 + beta*runQ(otherBandit2)) + exp(beta_c.*Ic + beta*runQ(chosenBandit));
+%     pc(trialIdx)  = exp(beta_c.*Ic + beta*runQ(chosenBandit))/denom;

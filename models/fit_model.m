@@ -2,9 +2,9 @@ function results = fit_model()
 
 mode = '';
 likfunToUse = 3; % 1, 2 or 3.
-startSubject = 1;
-iterations = 10;
-saveFile = strcat('resultmatfiles/ctxhybrid_results', mode)
+startSubject = 29;
+iterations = 5;
+saveFile = strcat('resultmatfiles/ctxhybrid/ctxhybrid_results', mode)
 
 verbose = 1;
 veryverbose = 1;
@@ -150,7 +150,7 @@ for sub = startSubject:nSubs
         transformed_xf = transform_params(xf, paramNames);      % to valid space output of fminunc
 
         if (verbose == 1)
-            disp(['> valid_x0=[' num2str(x0) ']  raw_x0=[' num2str(transformed_x0) ']  raw_xf=[' num2str(xf) '] valid_xf=[' num2str(transformed_xf) ']']);
+            disp(['> valid_x0=[' num2str(x0) '] valid_xf=[' num2str(transformed_xf)  ']  (raw_x0=[' num2str(transformed_x0) ']  raw_xf=[' num2str(xf) '])' ]);
         end
         
         d2 = datetime;
@@ -163,6 +163,7 @@ for sub = startSubject:nSubs
 %         
         if exitflag ~= 1
             disp('Failed to converge')
+            continue;
         else
             if (veryverbose == 1)
                 disp(['subject ' num2str(sub) ': start ' num2str(starts) '(' num2str(nUnchanged) '): NLL ' ...
