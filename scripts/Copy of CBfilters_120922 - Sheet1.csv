@@ -1,0 +1,402 @@
+subject,Username,Condition,1_code,1_notes,2_code,exclude?,2_notes,3_code,exclude?,3_notes,total score
+1,AW0K78T4I2T72,DMT-with-tutorial,2,picked one deck for 90% of trials in phase 2,2,Y,large bias for green in phase 2,2,Y,bias for green in phase 2,6
+2,5a399bc6,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+3,a33fae10,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+4,b9bde367,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+5,a0e224f7,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+6,622aa355,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+7,9bc05aa1,DMT-with-tutorial,0,-,0,N,,1,N,a couple low RTs,1
+8,03381ba9,DMT-with-tutorial,1,Sigmoidial trend with RT,1,N,RT gradually increases into phase 2,0,N,-,2
+9,a6277cee,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+10,ca26160d,DMT-with-tutorial,0,Lots of NR in Phase 1,1,N,"low response time, lots of NR",1,N,"1 low RT, many NRs",2
+11,a5cbf67e,DMT-with-tutorial,1,Large bias against red in both phases + super low RTs,2,Y,low response time and NR on numerous trials,2,Y,many low RTs and NRs,5
+12,9459877c,DMT-with-tutorial,1,Large bias against red in phase 2,1,N,avoided red in phase 2,0,N,-,2
+13,6b8c6310,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+14,00ef812b,DMT-with-tutorial,1,super low RTs,2,Y,low response time on numerous trials,2,Y,many low RTs and NRs,5
+15,ad05b45c,DMT-with-tutorial,2,Large bias towards blue in phase 2,2,Y,large bias for blue in phase 2,2,Y,bias for blue in phase 2,6
+16,1d9e681c,DMT-with-tutorial,2,Large bias against red in phase 1,1,N,avoided red in phase 1,1,N,low red count in phase 1,4
+17,b480ab06,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+18,60e71e4d,DMT-with-tutorial,1,Impossible RTs,2,Y,low response time on a lot of trials,2,Y,many low RTs,5
+19,c90f0fb5,DMT-with-tutorial,0,-,1,N,low response time on numerous trials,1,N,many low RTs,2
+20,670ea998,DMT-with-tutorial,1,Few weird RTs,1,N,low response time on numerous trials,0,N,-,2
+21,bf3c62ec,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+22,3f7a1916,DMT-with-tutorial,2,Large bias against green in phase 2,2,Y,large bias against green in phase 2,1,N,low amt. of green in phase 2,5
+23,a57dae04,DMT-with-tutorial,1,Large bias towards red in phase 1,0,N,,0,N,-,1
+24,8e77a76e,DMT-with-tutorial,2,Large bias towards red in phase 2,2,Y,large bias for red in phase 2,1,N,bias for red in phase 2,5
+25,fa128a6e,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+26,4542e7e8,DMT-with-tutorial,0,-,0,N,,1,N,bias for green in phase 2,1
+27,f06536a1,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+28,bda730a8,DMT-with-tutorial,2,Large bias against green in phase 2,2,Y,large bias against green in phase 2,2,Y,only chose green once in phase 2,6
+29,3cacfd9c,DMT-with-tutorial,2,Large bias against blue in phase 2,1,N,large bias against blue in phase 2,1,N,low amt. of blue in phase 2,4
+30,f0b36eb5,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+31,e7d27384,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+32,d2766e0d,DMT-with-tutorial,2,Impossible RTs + lots of NRs,2,Y,impossible response time & lots of NRs,2,Y,many low RTs and NRs,6
+33,2cbc21cc,DMT-with-tutorial,2,Impossible RTs,2,Y,impossible response times,2,Y,many low RTs,6
+34,60dfc6be,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+35,16382f4b,DMT-with-tutorial,2,Impossible RTs + large bias against green in phase 2,2,Y,impossible RTs,2,Y,low RTs,6
+36,b137c8d1,DMT-with-tutorial,2,Impossible RTs + lots of NRs,2,Y,impossible RTs and NRs,2,Y,many low RTs and NRs,6
+37,87d7d758,DMT-with-tutorial,2,Lots of NRs in phase 2,2,Y,lots of NRs,2,Y,many low RTs and NRs,6
+38,c0c55b5d,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+39,c35e4352,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+40,4dcfaf9c,DMT-with-tutorial,2,Large bias against blue in phase 2,2,Y,large bias against blue in phase 2,2,Y,bias for red in phase 2,6
+41,d9d44708,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+42,57502c6f,DMT-with-tutorial,2,Large bias against blue in phase 2,2,Y,bias for green in phase 2,2,Y,bias for green in phase 2,6
+43,25d52f10,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+44,2226dee7,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+45,6a4b3984,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+46,c66aa533,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+47,65c7a601,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+48,8bcc86ed,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+49,5c5c61c8,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+50,a048500e,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+51,37943ef6,DMT-with-tutorial,2,Large bias against blue in phase 2,2,Y,bias against blue in phase 2,2,Y,bias for red in phase 2,6
+52,f287c95e,DMT-with-tutorial,2,Large bias against blue in phase 2,2,Y,bias against blue in phase 2,2,Y,bias for red in phase 2,6
+53,c8e79430,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+54,3bdf678e,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+55,94a5be5d,DMT-antiyoked-without-tutorial,0,-,0,N,,1,N,consecutive blue,1
+56,10f5ee8f,DMT-antiyoked-with-tutorial,1,Large bias towards red in phase 1 and 2,1,N,slight bias towards red in phase 1,0,N,-,2
+57,b021bc55,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+58,2ef87f1a,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+59,a9afc07c,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+60,1bef8c42,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+61,6f699ecb,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+62,84bed274,DMT-antiyoked-with-tutorial,2,Large bias towards red in phase 2,2,Y,large bias for red in phase 2,2,Y,bias for red in phase 2,6
+63,810c0288,DMT-antiyoked-with-tutorial,1,Large number of NRs,1,N,lots of NRs,1,N,NRs,3
+64,8124474a,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+65,70001f6b,DMT-antiyoked-with-tutorial,2,Large bias towards red in phase 1,2,Y,,1,N,bias for red in phase 1,5
+66,8cb5b068,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+67,3524746e,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+68,ec7c23fe,DMT-antiyoked-with-tutorial,,Complete bias towards red in phase 2,2,Y,large bias for red in phase 2,2,Y,only red in phase 2,4
+69,95ae0328,DMT-antiyoked-with-tutorial,2,,0,N,,0,N,-,2
+70,447955b2,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+71,1ad791ef,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+72,36600b0b,DMT-antiyoked-with-tutorial,2,Large bias against green in phase 2,0,N,,0,N,-,2
+73,b2849d4e,DMT-antiyoked-with-tutorial,0,-,1,N,slight bias for red,1,N,bias for red,2
+74,cd3b7d21,DMT-antiyoked-with-tutorial,2,Large bias towards red in phase 1 and 2,0,N,,0,N,-,2
+75,58f557dc,DMT-antiyoked-with-tutorial,0,-,0,N,,1,N,low RTs,1
+76,cfa1f2b3,DMT-antiyoked-with-tutorial,1,Low RTs,1,N,a few impossible RTs,1,N,low blue count in phase 2,3
+77,a858bc9b,DMT-antiyoked-with-tutorial,0,-,0,N,,2,Y,many low RTs and NRs,2
+78,75d1bdd1,DMT-antiyoked-with-tutorial,2,Large number of NRs,1,Y,a few NRs,0,N,-,3
+79,e260c0bb,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+80,699bcdff,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+81,0a1d6bcc,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+82,c7217632,DMT-antiyoked-with-tutorial,1,Large bias against green in phase 2,0,N,,0,N,-,1
+83,e72423f6,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+84,edbb0781,DMT-antiyoked-with-tutorial,1,Bias against green in Phase 2,0,N,,0,N,-,1
+85,bf490b60,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+86,4de028fd,DMT-antiyoked-with-tutorial,2,Large bias against blue in phase 2,1,N,bias against blue in phase 2,0,N,-,3
+87,6789dc66,DMT-antiyoked-with-tutorial,0,-,2,Y,low RTs,2,Y,low RTs,4
+88,6c2f96a9,DMT-antiyoked-with-tutorial,1,Few weird RTs,0,N,,0,N,-,1
+89,ee0c7bab,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+90,3732ef03,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+91,16a88057,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+92,2fb78153,DMT-antiyoked-with-tutorial,1,Large bias towards green in phase 1 and bias against red in phase 2,0,N,,0,N,-,1
+93,4c8b9808,DMT-antiyoked-with-tutorial,0,-,1,N,impossible RTs,2,Y,low RTs,3
+94,118ed071,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+95,b2308fd1,DMT-antiyoked-with-tutorial,0,-,2,Y,bias for green in phase 1,2,Y,bias for green in phase 1,4
+96,7719f5e8,DMT-antiyoked-with-tutorial,2,Large bias towards green in phase 1,0,N,,0,N,-,2
+97,1ca26713,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+98,71a56974,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+99,9a344e28,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+100,f140ae7c,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+101,92ea3a31,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+102,0d555d84,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+103,cc9ea5f0,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+104,d45790cd,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+105,c31b05aa,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+106,96b7c894,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+107,a207f0f8,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+108,67a912f3,DMT-antiyoked-with-tutorial,0,-,2,Y,impossible RTs,2,Y,low RTs,4
+109,6991f35f,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+110,daa080a8,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+111,bdeecb54,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+112,de410da8,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+113,ce858da9,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+114,44d4cee3,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+115,5747ef5b,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+116,27fc9d3c,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+117,4028de2e,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+118,7e253526,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+119,240e386e,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+120,c01e97d6,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+121,99fd931f,DMT-antiyoked-with-tutorial,0,-,2,Y,impossible RTs,2,Y,low RTs,4
+122,6413b882,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+123,967b7695,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+124,a831051e,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+125,ad148bb5,DMT-antiyoked-with-tutorial,0,-,1,N,bias for red in phase 2,1,N,bias for red in phase 2,2
+126,024a422b,DMT-antiyoked-with-tutorial,1,Large bias against blue in phase 2,1,N,,0,N,-,2
+127,0b8ba1d6,DMT-antiyoked-with-tutorial,0,-,1,N,large bias for red and blue in phase 2,1,N,bias for red and blue in phase 2,2
+128,7a1a6372,DMT-antiyoked-with-tutorial,0,-,2,Y,large bias for red in phase 2,2,Y,"bias for red, no green, in phase 2",4
+129,7b617ea3,DMT-antiyoked-with-tutorial,1,Large bias against green in phase 2,0,N,,0,N,-,1
+130,bf85af69,DMT-antiyoked-with-tutorial,2,Large bias towards red in phase 2,0,N,,0,N,-,2
+131,f23633d1,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+132,ebbc26dc,DMT-antiyoked-with-tutorial,0,-,0,N,,0,N,-,0
+133,8df6f7e3,DMT-with-tutorial,0,-,1,N,impossible RTs,1,N,"low RTs, consecutive blue",2
+134,5d618a81,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+135,1aa8784d,DMT-with-tutorial,1,Large bias against blue in phase 2,0,N,,0,N,-,1
+136,38816f92,DMT-with-tutorial,0,-,2,Y,impossible RTs,2,Y,low RTs,4
+137,a8299b03,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+138,0395f3c1,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+139,745fb31c,DMT-with-tutorial,0,-,2,Y,,2,Y,bias for blue in p1 and green in p2,4
+140,ce0b5f5e,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+141,5efdc4b6,DMT-with-tutorial,2,Large bias towards blue in phase 1,0,N,,0,N,-,2
+142,3e6039a8,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+143,5e66e032,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+144,c981a504,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+145,42d17e61,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+146,bfe6856b,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+147,ea12bf09,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+148,0b1098b9,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+149,7345beaa,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+150,3fd2ff16,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+151,d41bb9f9,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+152,bebf0fc2,DMT-with-tutorial,0,-,2,Y,impossible RTs,2,Y,low RTs,4
+153,a4d08a6b,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+154,3810bdf5,DMT-with-tutorial,0,-,0,N,,1,N,some low RTs,1
+155,f3cdb906,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+156,1b93a070,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+157,d458e04f,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+158,fe02eb95,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+159,13f3b4a2,DMT-with-tutorial,0,-,0,N,,2,Y,low RTs,2
+160,544e7bd1,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+161,0a7837fa,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+162,40e6f4fe,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+163,05b17f91,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+164,de656bcd,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+165,9dd3cf00,DMT-with-tutorial,0,-,1,N,bias against blue in phase 2,1,N,low amt. of blue in phase 2,2
+166,3965d217,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+167,930d7693,DMT-with-tutorial,1,Large bias against blue in phase 2,2,Y,lots of NRs,2,Y,high amt. of NRs in phase 2,5
+168,dee484a0,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+169,605151aa,DMT-with-tutorial,1,Large number of NRs,0,N,,0,N,-,1
+170,c4e18d06,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+171,e107df94,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+172,a5dc3b01,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+173,6.30E+08,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+174,a476f53a,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+175,105dcf56,DMT-with-tutorial,0,-,2,Y,impossible RTs,2,Y,low RTs,4
+176,e2390c62,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+177,28b1d0fd,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+178,3e4cdc65,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+179,a8ad4857,DMT-with-tutorial,1,Large bias against blue in phase 2,0,N,,0,N,-,1
+180,476d2580,DMT-with-tutorial,0,-,0,N,,0,N,-,0
+181,bca1ccee,DMT-with-tutorial,,,0,N,,0,N,-,0
+182,54a4fcc0,DMT-with-tutorial,1,Bias against blue in phase 2,1,N,slight bias for blue in phase 2,1,N,bias for blue in phase 2,3
+183,2183f466,DMT-with-tutorial,,,2,Y,impossible RTs,2,Y,low RTs,4
+184,df232fb0,DMT-with-tutorial,1,Bias towards green in phase 2,2,Y,lots of NRs,2,Y,high amt. of NRs in phase 1,5
+185,e5b8a38a,DMT-with-tutorial,1,Very low RTs,0,N,,0,N,-,1
+186,4b44d42a,DMT-with-tutorial,2,Many NRs in Phase 1 and slight bias towards red in phase 1,0,N,,0,N,-,2
+187,6e085622,DMT-with-tutorial,1,Large bias towards red in phase 2,2,Y,large bias towards red ,2,Y,bias for red in both phases,5
+188,137a3eca,DMT-with-tutorial,,,0,N,,0,N,-,0
+189,02422f45,DMT-with-tutorial,2,Large bias towards red in phase 1 and 2,1,N,impossible RTs,1,N,"low RTs, consecutive blue",4
+190,b99612e6,DMT-with-tutorial,1,Bias against blue in phase 2,0,N,,0,N,-,1
+191,e37bc655,DMT-with-tutorial,,,2,Y,large bias for blue in phase 2,2,Y,bias for blue in phase 2,4
+192,6ee958ed,DMT-with-tutorial,,,0,N,,0,N,-,0
+193,f34040e1,DMT-with-tutorial,2,Large bias towards blue in phase 2,0,N,,0,N,-,2
+194,1824d471,DMT-with-tutorial,,,1,N,bias for blue,1,N,bias for blue in phase 2,2
+195,77b0cf71,DMT-with-tutorial,,,2,Y,bias for red in phase 2,2,Y,bias for red in phase 2,4
+196,97583168,DMT-with-tutorial,2,Large bias towards blue in phase 2,2,Y,bias for green in phase 2,2,Y,bias for green in phase 2,6
+197,bbbbd198,DMT-with-tutorial,2,Large bias towards red in phase 2,1,N,few impossible RTs,1,N,some low RTs,4
+198,934a9285,DMT-with-tutorial,1,Bias towards green in phase 2,2,Y,bias for red in phase 2,2,Y,consecutive red in phase 2,5
+199,4a541d59,DMT-with-tutorial,2,Large bias against red in phase 2,0,N,,0,N,-,2
+200,bcaec00f,DMT-with-tutorial,2,Large bias towards red in phase 2,0,N,,0,N,-,2
+201,623f1f05,DMT-with-tutorial,,,0,N,,0,N,-,0
+202,d190166d,DMT-with-tutorial,,,0,N,,0,N,-,0
+203,bd08357e,DMT-with-tutorial,1,Lots of NR in Phase 1,0,N,,0,N,-,1
+204,170a9c17,DMT-with-tutorial,,,0,N,,0,N,-,0
+205,4418846b,DMT-with-tutorial,,,0,N,,0,N,-,0
+206,6d06ae27,DMT-with-tutorial,,,0,N,,0,N,-,0
+207,0de3ad0f,DMT-with-tutorial,1,Lots of NR in Phase 1,0,N,,0,N,-,1
+208,2d330444,DMT-with-tutorial,,,2,Y,lot of NRs & impossible RTs,2,Y,many low RTs and NRs,4
+209,0eaa254b,DMT-with-tutorial,,,2,Y,impossible RTs,2,Y,many low RTs,4
+210,55dbf7c4,DMT-with-tutorial,1,Lots of NR in Phase 1,2,Y,large bias for red in phase 2,2,Y,consecutive red in phase 2,5
+211,3def9dfd,DMT-with-tutorial,1,Very low RTs,0,N,,0,N,-,1
+212,b1900112,DMT-with-tutorial,2,Large bias against blue in phase 2,2,Y,impossible RTs,2,Y,many low RTs,6
+213,53adc684,DMT-with-tutorial,,,0,N,,0,N,-,0
+214,29573411,DMT-with-tutorial,1,Very low RTs,0,N,,0,N,-,1
+215,d429c21a,DMT-with-tutorial,,,0,N,,0,N,-,0
+216,c9f9b4ff,DMT-with-tutorial,,,0,N,,1,N,many NRs,1
+217,70224bf5,DMT-with-tutorial,2,Large bias towards green in phase 1,0,N,,0,N,-,2
+218,c295f463,DMT-with-tutorial,2,Lots of NR in Phase 1,0,N,,0,N,-,2
+219,65057767,DMT-with-tutorial,,,1,N,slight bias for blue,2,Y,bias for blue,3
+220,37a42259,DMT-with-tutorial,,,0,N,,0,N,-,0
+221,6523511a,DMT-with-tutorial,2,Large bias against red in phase 2,0,N,,0,N,-,2
+222,31448c0c,DMT-with-tutorial,,,0,N,,0,N,-,0
+223,21baa9c1,DMT-with-tutorial,,,0,N,,0,N,-,0
+224,b6fca588,DMT-with-tutorial,,,2,Y,impossible RTs,2,Y,many low RTs,4
+225,9360eb45,DMT-with-tutorial,,,1,N,slight bias for blue in phase 2,1,N,bias for blue in phase 2,2
+226,6934fe11,DMT-with-tutorial,2,Large bias towards blue in phase 1,2,Y,impossible RTs & a few NRs,1,N,low RTs and high level of NRs,5
+227,82551300,DMT-with-tutorial,,,2,Y,impossible RTs,2,Y,many low RTs,4
+228,53bf01c5,DMT-with-tutorial,2,Lots of NR in Phase 1,2,Y,large bias for red in phase 2,2,Y,bias for red in phase 2,6
+229,494ff50a,DMT-with-tutorial,2,Very low RTs,0,N,,0,N,-,2
+230,8a8ab53a,DMT-with-tutorial,2,Large bias towards red in phase 2,2,Y,large bias for blue in phase 1,2,Y,bias for blue in phase 1,6
+231,713efa1a,DMT-with-tutorial,,,0,N,,0,N,-,0
+232,98c2bfbd,DMT-with-tutorial,2,Large bias towards blue in phase 1,0,N,,0,N,-,2
+233,3337426,DMT-with-tutorial,2,Lots of NR in Phase 1 and 2,0,N,,0,N,-,2
+234,543ecc72,DMT-with-tutorial,,,0,N,,0,N,-,0
+235,2e9b275f,DMT-with-tutorial,1,Very low RTs,0,N,,0,N,-,1
+236,fb5aa372,DMT-with-tutorial,,,0,N,,0,N,-,0
+237,0aab0a9b,DMT-with-tutorial,1,Large bias against red in phase 2,0,N,,0,N,-,1
+238,bf728c26,DMT-with-tutorial,,,0,N,,0,N,-,0
+239,ccbc9e30,DMT-with-tutorial,,,0,N,,0,N,-,0
+240,a88d20c5,DMT-with-tutorial,,,0,N,,0,N,-,0
+241,5fec616a,DMT-with-tutorial,1,Bias against blue in phase 2,0,N,,0,N,-,1
+242,0ce55338,DMT-with-tutorial,,,0,N,,0,N,-,0
+243,604eeaa6,DMT-with-tutorial,,,0,N,,0,N,-,0
+244,583ee0be,DMT-with-tutorial,,,0,N,,0,N,-,0
+245,afa4793c,DMT-with-tutorial,2,Large bias towards blue in phase 1,0,N,,0,N,-,2
+246,0dc1e6d9,DMT-with-tutorial,2,Bias towards green in phase 2,0,N,,1,N,low amt. of blue in phase 2,3
+247,78949889,DMT-with-tutorial,,,0,N,,0,N,-,0
+248,d0f41055,DMT-with-tutorial,2,Large bias against blue in phase 2,0,N,,0,N,-,2
+249,f49537e7,DMT-with-tutorial,1,Bias against blue in phase 2,0,N,,0,N,-,1
+250,ecdbad92,DMT-with-tutorial,,,0,N,,0,N,-,0
+251,7d1da5ce,DMT-with-tutorial,1,Lots of NR in Phase 1 and 2,0,N,,0,N,-,1
+252,dd40920a,DMT-with-tutorial,,,2,Y,large bias for red ,2,Y,bias for red in phase 2,4
+253,77ecd66b,DMT-with-tutorial,,,0,N,,0,N,-,0
+254,4b5f1363,DMT-with-tutorial,2,Large bias towards red in phase 1 and 2,1,N,slight bias for red in phase 2,2,Y,bias for red in phase 2,5
+255,cee3a8f1,DMT-with-tutorial,,,0,N,,0,N,-,0
+256,b01b7430,DMT-with-tutorial,2,Large bias against green in phase 2,1,N,slight bias for red in phase 1,1,N,bias for red,4
+257,a22d8d0b,DMT-with-tutorial,,,0,N,,0,N,-,0
+258,e2175e4b,DMT-with-tutorial,1,Bias against green in Phase 2,0,N,,0,N,-,1
+259,508ef1e8,DMT-with-tutorial,2,Bias against blue in phase 2,0,N,,0,N,-,2
+260,d717ee02,DMT-with-tutorial,,,0,N,,0,N,-,0
+261,295d02d2,DMT-with-tutorial,1,Lots of NR in Phase 1 and 2,0,N,,0,N,-,1
+262,e73be0c4,DMT-with-tutorial,1,Bias against blue in phase 2,0,N,,0,N,-,1
+263,b1fc9380,DMT-with-tutorial,,,2,Y,large bias for red and green in phase 2,2,Y,only red and green in phase 2,4
+264,c970e131,DMT-with-tutorial,1,Bias against green in Phase 2,0,N,,1,N,low amt. of blue in phase 2,2
+265,983f4ec2,DMT-with-tutorial,2,Large bias against blue in phase 2,0,N,,0,N,-,2
+266,9a3a1a78,DMT-with-tutorial,2,Large bias against blue in phase 2,0,N,,0,N,-,2
+267,635770c6,DMT-with-tutorial,1,Weird pattern,0,N,,0,N,-,1
+268,8b81c0d2,DMT-with-tutorial,1,Few NRs in phase 1,0,N,,0,N,-,1
+269,db19969f,DMT-with-tutorial,,,0,N,,0,N,-,0
+270,797902f1,DMT-with-tutorial,,,2,Y,large bias towards red in phase 2,2,Y,consecutive red in phase 2,4
+271,bb43a5b5,DMT-with-tutorial,1,Bias against blue in phase 2,0,N,,0,N,-,1
+272,557a7dc9,DMT-with-tutorial,2,Large bias towards red in phase 2,0,N,,0,N,-,2
+273,3f01fbcd,DMT-with-tutorial,,,0,N,,0,N,-,0
+274,7.74E+53,DMT-with-tutorial,,,0,N,,0,N,-,0
+275,aeb7c122,DMT-with-tutorial,,,0,N,,0,N,-,0
+276,b6a5a6e7,DMT-with-tutorial,,,0,N,,0,N,-,0
+277,46779a19,DMT-with-tutorial,,,0,N,,0,N,-,0
+278,d113648b,DMT-with-tutorial,1,Bias against blue in phase 2,0,N,,0,N,-,1
+279,b322f0bd,DMT-with-tutorial,,,1,N,slight bias towards blue in phase 2,1,N,bias for red in phase 2,2
+280,ea6cec0b,DMT-with-tutorial,,Weird pattern,0,N,,0,N,-,0
+281,b1083ac8,DMT-with-tutorial,2,Large bias towards blue in phase 2,0,N,,0,N,-,2
+282,d862dc74,DMT-with-tutorial,,,0,N,,0,N,-,0
+283,fbbbdfec,DMT-with-tutorial,1,Lots of NR in Phase 1 and 2,0,N,,0,N,-,1
+284,96af39eb,DMT-with-tutorial,2,Large bias against green in phase 2,0,N,,0,N,-,2
+285,072bc315,DMT-with-tutorial,,,0,N,,0,N,-,0
+286,c943d01c,DMT-with-tutorial,,,0,N,,0,N,-,0
+287,6f8f30c1,DMT-with-tutorial,,,1,N,large bias towards blue in phase 1 & 2,1,N,-,2
+288,4edb459e,DMT-with-tutorial,,,2,Y,lots of NRs,2,Y,high amt. of NRs,4
+289,7b3790a1,DMT-with-tutorial,2,Large bias towards blue in phase 1 and 2,0,N,,0,N,-,2
+290,47c78544,DMT-with-tutorial,2,Lots of NR in Phase 1 and 2,0,N,,0,N,-,2
+291,af6b758b,DMT-with-tutorial,1,Bias again red in phase 1,0,N,,0,N,-,1
+292,fdbdaac5,DMT-with-tutorial,,,0,N,,1,N,low RTs,1
+293,87d1aeb6,DMT-with-tutorial,,,0,N,,0,N,-,0
+294,551ea227,DMT-with-tutorial,,,0,N,,0,N,-,0
+295,a2671715,DMT-with-tutorial,1,Bias against red in phase 2,0,N,,0,N,-,1
+296,01c1c814,DMT-with-tutorial,,,0,N,,0,N,-,0
+297,4460ff3a,DMT-with-tutorial,,,0,N,,0,N,-,0
+298,6b4bbc0c,DMT-with-tutorial,1,Bias towards blue in phase 1,0,N,,0,N,-,1
+299,e5a8e31b,DMT-with-tutorial,1,Lots of NR in Phase 1 and 2,0,N,,0,N,-,1
+300,e65cb6ca,DMT-with-tutorial,,,0,N,,1,N,low RTs,1
+301,c8a3c2c0,DMT-with-tutorial,1,Bias against blue in phase 2,0,N,,0,N,-,1
+302,79cfe11c,DMT-with-tutorial,1,Low RTs,2,Y,a lot of NRs,1,N,high amt. of NRs,4
+303,7c99b937,DMT-with-tutorial,,,0,N,,0,N,-,0
+304,f6486577,DMT-with-tutorial,1,Lots of NR in Phase 1,0,N,,0,N,-,1
+305,20c183ef,DMT-with-tutorial,,,0,N,,0,N,-,0
+306,a10ed634,DMT-with-tutorial,,,0,N,,0,N,-,0
+307,59dc8228,DMT-with-tutorial,,,0,N,,0,N,-,0
+308,a22b57fb,DMT-with-tutorial,2,Large bias against blue in phase 2,0,N,,0,N,-,2
+309,acc47eb2,DMT-with-tutorial,2,Large bias towards green in phase 2,0,N,,0,N,-,2
+310,cda8dc6b,DMT-with-tutorial,1,Large bias against blue in phase 2,0,N,,0,N,-,1
+311,5d01bd6e,DMT-with-tutorial,,,0,N,,0,N,-,0
+312,6221812d,DMT-with-tutorial,,,0,N,,1,N,low RTs,1
+313,194e66ea,DMT-with-tutorial,,,0,N,,0,N,-,0
+314,ae64e81c,DMT-antiyoked-with-tutorial,1,Low RTs,0,N,,0,N,-,1
+315,27d399df,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+316,313fe5c8,DMT-antiyoked-with-tutorial,1,Lots of NR in Phase 1,1,N,slight bias for blue in phase 2,1,N,bias for blue in phase 2,3
+317,9a435f79,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+318,bf8b9908,DMT-antiyoked-with-tutorial,,,2,Y,large bias for blue in phase 2,2,Y,bias for blue in phase 2,4
+319,7d31ad67,DMT-antiyoked-with-tutorial,2,Large bias towards blue in phase 1,0,N,,0,N,-,2
+320,d7aec722,DMT-antiyoked-with-tutorial,2,Large bias towards blue in phase 1 and 2,2,Y,impossible RTs,2,Y,low RTs,6
+321,bcbfc93a,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+322,b4ea75e5,DMT-with-tutorial,1,Low RTs,0,N,,0,N,-,1
+323,8f3a4c9e,DMT-antiyoked-with-tutorial,1,Lots of NR in Phase 1,0,N,,0,N,-,1
+324,5d594c57,DMT-with-tutorial,2,Low RTs + bias towards red in phase 1,0,N,,0,N,-,2
+325,afa9cc32,DMT-with-tutorial,,,0,N,,0,N,-,0
+326,9e6c6adf,DMT-with-tutorial,,,0,N,,0,N,-,0
+327,2b4fb653,DMT-with-tutorial,,,0,N,,0,N,-,0
+328,5f153c62,DMT-with-tutorial,,,0,N,,0,N,-,0
+329,749c99c0,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+330,0af3cf3f,DMT-antiyoked-with-tutorial,2,Large bias towards red in phase 1,0,N,,1,N,bias for blue in phase 2,3
+331,9908c635,DMT-with-tutorial,,,0,N,,0,N,-,0
+332,3758c346,DMT-antiyoked-with-tutorial,2,Large bias against green in phase 2,0,N,,0,N,-,2
+333,dffa9bff,DMT-with-tutorial,,,0,N,,0,N,-,0
+334,0eb41dd4,DMT-with-tutorial,,,0,N,,0,N,-,0
+335,66606ada,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+336,d4c6ba9b,DMT-with-tutorial,,,0,N,,0,N,-,0
+337,02ba348a,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+338,3cf15861,DMT-antiyoked-with-tutorial,1,Bias against green in Phase 2,2,Y,large bias for green in phase 2,2,Y,bias for green in phase 2,5
+339,bf73d17d,DMT-antiyoked-with-tutorial,,,1,N,slight bias for red,2,Y,bias for red,3
+340,32fb59cf,DMT-antiyoked-with-tutorial,2,Bias against blue in phase 2,0,N,,0,N,-,2
+341,65c44c85,DMT-antiyoked-with-tutorial,2,Large bias towards red in phase 1 and 2,0,N,,0,N,-,2
+342,9e0dc473,DMT-antiyoked-with-tutorial,1,Lots of NR in Phase 1,0,N,,0,N,-,1
+343,4be22b9c,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+344,7.53E+08,DMT-with-tutorial,,,0,N,,0,N,-,0
+345,91ea03b4,DMT-with-tutorial,,,0,N,,0,N,-,0
+346,6cbb3a3e,DMT-with-tutorial,,,0,N,,0,N,-,0
+347,22aece87,DMT-with-tutorial,1,Bias against blue in phase 2,0,N,,0,N,-,1
+348,e0275d6e,DMT-antiyoked-with-tutorial,2,Large bias against blue in phase 2,0,N,,0,N,-,2
+349,1f166736,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+350,fbde5443,DMT-with-tutorial,,,0,N,,0,N,-,0
+351,9a80fe33,DMT-with-tutorial,,,0,N,,1,Y,consecutive green in phase 2,1
+352,76dcc6f8,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+353,81d1283d,DMT-with-tutorial,,,0,N,,1,Y,consecutive blue in phase 2,1
+354,cc3793df,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+355,d09c01c7,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+356,50a753b0,DMT-with-tutorial,,,0,N,,0,N,-,0
+357,6.78E+11,DMT-antiyoked-with-tutorial,,,2,Y,impossible RTs,2,Y,"cons. red, low RTs in phase 2",4
+358,e1ced0a9,DMT-with-tutorial,,,0,N,,0,N,-,0
+359,b57d522e,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+360,63bea772,DMT-with-tutorial,2,Large bias against green in phase 2,0,N,,0,N,-,2
+361,1214f040,DMT-with-tutorial,,,2,Y,large bias for red,2,Y,bias for red,4
+362,c6a66645,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+363,d9137278,DMT-with-tutorial,,,0,N,,0,N,-,0
+364,cfd59d58,DMT-antiyoked-with-tutorial,2,Large bias towards red in phase 1 and 2,2,Y,large bias for red,2,Y,bias for red,6
+365,77df7568,DMT-with-tutorial,1,Large bias against green in phase 2,0,N,,0,N,-,1
+366,62f2ba7b,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+367,7fc2e4cf,DMT-antiyoked-with-tutorial,2,Large bias towards red in phase 1 and 2,0,N,,0,N,-,2
+368,79db49ce,DMT-with-tutorial,,,2,Y,large bias for red,2,Y,bias for red,4
+369,be58cf1a,DMT-with-tutorial,1,Bias again red in phase 1,1,N,impossible RTs,1,N,low RTs,3
+370,d9f5ba4a,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+371,be5f6b0f,DMT-antiyoked-with-tutorial,1,Lots of NR in Phase 1,0,N,,0,N,-,1
+372,e820f7bb,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+373,2008f75c,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+374,2f2b5ce2,DMT-with-tutorial,,Large bias against blue in phase 2,0,N,,0,N,-,0
+375,92dd3717,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+376,8004b8a2,DMT-antiyoked-with-tutorial,,,1,N,a lot of NRs,1,N,high amt. of NRs,2
+377,d637a09c,DMT-with-tutorial,,,0,N,,0,N,-,0
+378,6bef4919,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+379,b30e0314,DMT-with-tutorial,2,Lots of NR in Phase 1,0,N,,0,N,-,2
+380,579e81b0,DMT-antiyoked-with-tutorial,,,0,N,,0,N,-,0
+381,be695570,DMT-with-tutorial,2,Large bias against red in phase 1,0,N,,0,N,-,2
+382,b25b748a,DMT-with-tutorial,1,Bias against green in Phase 2,0,N,,0,N,-,1
+383,7b61dec0,DMT-with-tutorial,,,0,N,,0,N,-,0
+384,ca4fbdba,DMT-with-tutorial,2,Bias against blue in phase 2,0,N,,0,N,-,2
+385,0a37d2dc,DMT-with-tutorial,,,0,N,,1,N,bias for green/blue in phase 2,1
+386,8aba9e5b,DMT-with-tutorial,2,Large bias against green in phase 2,0,N,,0,N,-,2
+387,5de34098,DMT-with-tutorial,,,0,N,,0,N,-,0
+388,ac826cb6,DMT-with-tutorial,2,Large bias against red in phase 1,0,N,,0,N,-,2
+389,1e86f923,DMT-with-tutorial,,,0,N,,0,N,-,0
+390,e3086178,DMT-with-tutorial,,,0,N,,0,N,-,0
+391,29947374,DMT-with-tutorial,,,0,N,,0,N,-,0
+392,82fac0c7,DMT-with-tutorial,2,Large bias against blue in phase 2,0,N,,0,N,-,2
+393,0c24fb1a,DMT-with-tutorial,2,Large bias against blue in phase 2,0,N,,0,N,-,2
+394,3ebcceec,DMT-with-tutorial,,,0,N,,0,N,-,0
+395,1894044b,DMT-with-tutorial,,,0,N,,0,N,-,0
+396,861cd866,DMT-with-tutorial,,,0,N,,0,N,-,0
+397,5cea4787,DMT-with-tutorial,2,Large bias against blue in phase 2,0,N,,1,N,bias for green/blue in phase 2,3
+398,95cde898,DMT-with-tutorial,,,0,N,,0,N,-,0
+399,b7a9e8c7,DMT-with-tutorial,,,0,N,,0,N,-,0
+400,afa17234,,2,Large bias against red in phase 1,0,N,,0,N,afa17234,2
+401,2fb28796,,1,Low RTs,0,N,,0,N,2fb28796,1
