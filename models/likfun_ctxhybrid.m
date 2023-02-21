@@ -27,8 +27,8 @@ choiceTrials    = find(choiceTrials);
 
 % averageQ = 0;
 
-alpha  = params(1);
-beta   = params(2);
+alpha_smp  = params(1);
+beta_smp   = params(2);
 beta_c = params(3);
 alpha_td = params(4);
 beta_td = params(5);
@@ -41,8 +41,7 @@ choicerec = flags.choicerec;
 
 Q_td     = zeros(maxTrials, numBandits);
 rpe_td   = zeros(1, maxTrials);
-runQ     = zeros(numBandits, 1);
-
+runQ     = zeros(1, numBandits);
 pc       = zeros(1, maxTrials);
 
 %%
@@ -66,7 +65,7 @@ for trialIdx = 1:maxTrials
     for b = 1:numBandits
         bPrevIdxs   = reshape(combs{trialIdx, b}.', 1, []);
         rwdval{b}  = [choicerec(bPrevIdxs, 2)'];
-        pval{b}    = [alpha .* ( (1-alpha).^(trialIdx-bPrevIdxs))];
+        pval{b}    = [alpha_smp .* ( (1-alpha_smp).^(trialIdx-bPrevIdxs))];
 
         if (length(rwdval{b}) < 1)
             rwdval{b} = [0];
@@ -78,7 +77,7 @@ for trialIdx = 1:maxTrials
     end
 
     % TD
-%     Q_td(trialIdx, :) = runQ;   % Save record of Q-values used to make TD-model based choice.
+    Q_td(trialIdx, :) = runQ;   % Save record of Q-values used to make TD-model based choice.
     rpe_td(trialIdx) = reward - runQ(chosenBandit);
     runQ(chosenBandit)  = runQ(chosenBandit) + alpha_td * rpe_td(trialIdx);
 
@@ -91,8 +90,8 @@ for trialIdx = 1:maxTrials
     I2 = otherBandit2 == prevChosenBandit;
     Ic = chosenBandit == prevChosenBandit;
 
-    rvmat1 = arrayfun(@(x)(exp(beta_c.*(I1 - Ic) - beta_td .* (runQ(chosenBandit) - runQ(otherBandit1)) - beta.*(x - rwdval{otherBandit1}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
-    rvmat2 = arrayfun(@(x)(exp(beta_c.*(I2 - Ic) - beta_td .* (runQ(chosenBandit) - runQ(otherBandit2)) - beta.*(x - rwdval{otherBandit2}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
+    rvmat1 = arrayfun(@(x)(exp(beta_c.*(I1 - Ic) - beta_td .* (runQ(chosenBandit) - runQ(otherBandit1)) - beta_smp.*(x - rwdval{otherBandit1}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
+    rvmat2 = arrayfun(@(x)(exp(beta_c.*(I2 - Ic) - beta_td .* (runQ(chosenBandit) - runQ(otherBandit2)) - beta_smp.*(x - rwdval{otherBandit2}(:)'))), [rwdval{chosenBandit}(:)], 'UniformOutput', false);
 
     rvmat1 = [rvmat1{:}];
     rvmat2 = [rvmat2{:}];
@@ -130,8 +129,8 @@ nloglik = -sum(log(pc(choiceTrials)));
 % nloglik
 
 % add in the log prior probability of the parameters
-nloglik = nloglik - log(flags.pp_alpha(alpha));
-nloglik = nloglik - log(flags.pp_beta(beta));
+nloglik = nloglik - log(flags.pp_alpha(alpha_smp));
+nloglik = nloglik - log(flags.pp_beta(beta_smp));
 nloglik = nloglik - log(flags.pp_betaC(beta_c));
 nloglik = nloglik - log(flags.pp_alpha(alpha_td));
 nloglik = nloglik - log(flags.pp_beta(beta_td));

@@ -2,9 +2,9 @@ function results = fit_model()
 
 mode = '';
 likfunToUse = 3; % 1, 2 or 3.
-startSubject = 29;
+startSubject = 2;
 iterations = 5;
-saveFile = strcat('resultmatfiles/ctxhybrid/ctxhybrid_results', mode)
+saveFile = strcat('results/ctxhybrid/ctxhybrid_results', mode)
 
 verbose = 1;
 veryverbose = 1;
@@ -26,11 +26,11 @@ flags.pp_alpha = @(x)(pdf('beta', x, 1.1, 1.1));                  % Beta prior f
 low_bound = paramTable{2,2}{1}(1);
 upp_bound = paramTable{2,2}{1}(2);
 
-flags.pp_beta  = @(x)(pdf('normal', (x-low_bound)/(upp_bound-low_bound), 0, 10));            % Beta prior for \alphas (from Daw et al 2011 Neuron)
+flags.pp_beta  = @(x)(pdf('normal', (x-low_bound)/(upp_bound-low_bound), 0, 10));
 
 low_bound = paramTable{3,2}{1}(1);
 upp_bound = paramTable{3,2}{1}(2);
-flags.pp_betaC = @(x)(pdf('normal', (x-low_bound)/(upp_bound-low_bound), 0, 10));            % Beta prior for \alphas (from Daw et al 2011 Neuron)
+flags.pp_betaC = @(x)(pdf('normal', (x-low_bound)/(upp_bound-low_bound), 0, 10));
 
 
 %% Set up parameter space
@@ -99,7 +99,7 @@ options = optimset('Display','off');
 searchopts  = optimset('Display','off','TolCon',1e-6,'TolFun',1e-5,'TolX',1e-5,...
                        'DiffMinChange',1e-4,'Maxiter',1000,'MaxFunEvals',2000);
 
-for sub = startSubject:nSubs
+for sub = startSubject:startSubject
     ds1 = datetime;
 
     disp([newline '>>> Fitting subject ' int2str(sub) ' ' datestr(datetime)]);
